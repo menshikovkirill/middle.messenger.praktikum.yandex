@@ -2,10 +2,10 @@
   "name": "work1",
   "version": "1.0.0",
   "description": "### Откройте pull request в ветку main из ветки, где вы разрабатывали проект, и добавьте ссылку на этот pr в README.md в ветке main.  ### ВАЖНО: pull request должен называться “Sprint i” (i — номер спринта).",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "start": "npm run build",
     "preview": "vite preview"
   },
   "repository": {
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/menshikovkirill/middle.messenger.praktikum.yandex#readme",
   "dependencies": {
     "@eslint/js": "^8.57.0",
+    "express": "^4.19.2",
     "handlebars": "^4.7.8",
     "typescript": "^5.4.4",
     "typescript-eslint": "^7.5.0",

@@ -1,0 +1,12 @@
+{{#>Page}}
+    <div class="login-container">
+        {{#>Form title="Вход"}}
+            {{#>InputContainer}}
+            {{> Input name="login" type="text" label="Login" placeholder="Логин" errorMessage="Неверный логин" }}
+            {{> Input  name="password" type="password" label="Password" placeholder="Пароль" }}
+            {{/InputContainer}}
+            {{> Button label="Авторизоваться" type="primary" }}
+            {{> Button label="Нет аккаунта?" type="link" }}
+        {{/Form}}
+    </div>
+{{/Page}}

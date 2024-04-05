@@ -1,0 +1,17 @@
+{{#>Page}}
+    <div class="login-container">
+        {{#>Form title="Регистрация"}}
+            {{#>InputContainer}}
+            {{> Input name="email" type="email" label="Email" placeholder="Почта" }}
+            {{> Input name="login" type="text" label="Login" placeholder="Логин" }}
+            {{> Input name="first_name" type="text" label="Name" placeholder="Имя" }}
+            {{> Input name="second_name" type="text" label="Surname" placeholder="Фамилия" }}
+            {{> Input name="phone" type="tel" label="Phone" placeholder="Телефон" }}
+            {{> Input name="password" type="password" label="Password" placeholder="Пароль" errorMessage="" }}
+            {{> Input name="password" type="password" label="PasswordRepeat" placeholder="Пароль(еще раз)" errorMessage="Пароли не совпадают" }}
+            {{/InputContainer}}
+            {{> Button label="Авторизоваться" type="primary" }}
+            {{> Button label="Нет аккаунта?" type="link" }}
+        {{/Form}}
+    </div>
+{{/Page}}

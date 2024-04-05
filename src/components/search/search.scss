@@ -1,0 +1,19 @@
+@import "./../../default";
+
+.search {
+    display: flex;
+    margin-bottom: 20px;
+
+    input {
+        flex-grow: 1;
+        height: 32px;
+
+        background-color: $background-primary;
+        border: none;
+        border-radius: 5px;
+
+        &::placeholder {
+            text-align: center;
+        }
+    }
+}

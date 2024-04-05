@@ -6,7 +6,10 @@ import * as Pages from './pages';
 const pages = {
   'login': [ Pages.LoginPage ],
   'registration': [ Pages.RegistrationPage ],
-  'nav': [ Pages.NavigatePage ]
+  'nav': [ Pages.NavigatePage ],
+  'chat': [ Pages.ChatPage ],
+  'notFound': [ Pages.NotFound ],
+  'serverError': [Pages.ServerError]
 };
 
 Object.entries(Components).forEach(([ name, component ]) => {

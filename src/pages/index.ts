@@ -5,3 +5,4 @@ export { ChatPage } from './chat';
 export { NotFound } from './404';
 export { ServerError } from './500';
 export { Profile } from './profile';
+export { ProfilePassword } from './profile-password';

@@ -20,7 +20,10 @@ const pages = {
         secondName: 'Меньшиков',
         displayName: 'Kirill',
         phone: '+7 (909) 967 30 30',
-        profileImage: profileImage
+        profileImage
+    }],
+    'profilePassword': [Pages.ProfilePassword, {
+        profileImage
     }]
 } as Record<string, Array<string>>;
 
@@ -34,7 +37,7 @@ function navigate(page: string) {
     container.innerHTML = Handlebars.compile(source)(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('profile'));
+document.addEventListener('DOMContentLoaded', () => navigate('nav'));
 
 document.addEventListener('click', e => {
     const target = e?.target as HTMLInputElement;

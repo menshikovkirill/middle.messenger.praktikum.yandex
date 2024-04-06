@@ -1,7 +1,15 @@
-<div class="input">
+<div class="input {{style}}">
     {{#if errorMessage}}
         <div class="error">{{errorMessage}}</div>
     {{/if}}
-    <input type="{{type}}" name="{{name}}" id="{{label}}" placeholder="{{placeholder}}">
+    <input
+        value="{{value}}"
+        type="{{type}}"
+        name="{{name}}"
+        id="{{label}}"
+        placeholder="{{placeholder}}"
+        autocomplete="off"
+        {{#if isDisabled}}disabled="true"{{/if}}
+    >
     <label class="description" for="{{label}}">{{placeholder}}</span>
 </div>

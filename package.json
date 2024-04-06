@@ -1,7 +1,6 @@
 {
   "name": "work1",
   "version": "1.0.0",
-  "description": "### Откройте pull request в ветку main из ветки, где вы разрабатывали проект, и добавьте ссылку на этот pr в README.md в ветке main.  ### ВАЖНО: pull request должен называться “Sprint i” (i — номер спринта).",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -29,6 +28,7 @@
     "vite-plugin-handlebars": "^2.0.0"
   },
   "devDependencies": {
+    "@types/eslint__js": "^8.42.3",
     "sass": "^1.74.1"
   }
 }

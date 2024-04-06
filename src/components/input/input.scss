@@ -38,4 +38,19 @@
     input:not(:placeholder-shown) + .description {
         display: block;
     }
+
+    &.vertical {
+        flex-direction: row-reverse;
+
+        input {
+            flex-grow: 1;
+            border-bottom: 1px solid $border-secondary;
+            text-align: right;
+            background-color: inherit;
+        }
+
+        .description {
+            border-bottom: 1px solid $border-secondary;
+        }
+    }
 }

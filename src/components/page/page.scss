@@ -3,7 +3,10 @@
 .page {
     height: 100vh;
     font-family: Inter;
-    align-items: center;
     display: flex;
-    justify-content: center;
+
+    &.center {
+        align-items: center;
+        justify-content: center;
+    }
 }

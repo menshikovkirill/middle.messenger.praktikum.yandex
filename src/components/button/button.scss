@@ -21,4 +21,12 @@
         font-size: 11px;
         text-align: center;
     }
+
+    &.left {
+        text-align: left;
+    }
+
+    &.red-color {
+        color: $red-color;
+    }
 }

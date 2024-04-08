@@ -1,0 +1,12 @@
+@import "./../../default";
+
+.page {
+    height: 100vh;
+    font-family: Inter;
+    display: flex;
+
+    &.center {
+        align-items: center;
+        justify-content: center;
+    }
+}

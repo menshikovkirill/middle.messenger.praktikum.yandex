@@ -1,8 +1,12 @@
 import { PageError } from "../../components";
 import Block from "../../core/Block";
 
-export default class NotFound extends Block {
-    constructor(props) {
+interface Props {
+    PageError: PageError
+}
+
+export default class NotFound extends Block<Props> {
+    constructor(props: Props) {
         super({
             ...props,
             PageError: new PageError({

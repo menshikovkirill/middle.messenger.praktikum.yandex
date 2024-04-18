@@ -4,36 +4,38 @@ import * as Pages from './pages';
 
 import profileImage from './assets/empty-img.svg';
 
+type PagesType = keyof typeof Pages;
+
 const pages = {
-  login: [Pages.LoginPage],
-  registration: [Pages.RegistrationPage],
-  nav: [Pages.NavigatePage],
-  chat: [Pages.ChatPage],
-  notFound: [Pages.NotFound],
-  serverError: [Pages.ServerError],
-  profile: [Pages.Profile, {
-    formDisabled: true,
-    name: 'Kirill',
-    email: 'menshikov-kir@yandex.ru',
-    login: 'menshikov-kir',
-    firstName: 'Кирилл',
-    secondName: 'Меньшиков',
-    displayName: 'Kirill',
-    phone: '+7 (909) 967 30 30',
-    profileImage,
-  }],
-  profilePassword: [Pages.ProfilePassword, {
-    profileImage,
-  }],
-};
+    LoginPage: [Pages.LoginPage],
+    RegistrationPage: [Pages.RegistrationPage],
+    NavigatePage: [Pages.NavigatePage],
+    ChatPage: [Pages.ChatPage],
+    NotFound: [Pages.NotFound],
+    ServerError: [Pages.ServerError],
+    Profile: [Pages.Profile, {
+        FormD: true,
+        name: 'Kirill',
+        email: 'menshikov-kir@yandex.ru',
+        login: 'menshikov-kir',
+        firstName: 'Кирилл',
+        secondName: 'Меньшиков',
+        displayName: 'Kirill',
+        phone: '+7 (909) 967 30 30',
+        profileImage,
+    }],
+    // profilePassword: [Pages.ProfilePassword, {
+    // profileImage,
+} as Record<PagesType, any[]>;
 
 Object.entries(Components).forEach(([name, component]) => {
-  Handlebars.registerPartial(name, component);
+  Handlebars.registerPartial(name, component as Handlebars.Template);
 });
 
-function navigate(page: string) {
+function navigate(page: PagesType) {
   const [source, context] = pages[page];
   const container = document.getElementById('app')!;
+
   if (source instanceof Object) {
     const page = new source(context);
     container.innerHTML = '';
@@ -44,11 +46,11 @@ function navigate(page: string) {
   container.innerHTML = Handlebars.compile(source)(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('serverError'));
+document.addEventListener('DOMContentLoaded', () => navigate('LoginPage'));
 
 document.addEventListener('click', (e) => {
   const target = e?.target as HTMLInputElement;
-  const page = target?.getAttribute('page');
+  const page = target?.getAttribute('page') as PagesType;
 
   if (page) {
     navigate(page);

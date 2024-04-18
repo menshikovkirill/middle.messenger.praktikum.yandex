@@ -1,6 +1,8 @@
-import { EventType } from './Block';
+import Block from './Block';
 
-type CallbackType = (...args: unknown[]) => unknown
+export type Events = keyof typeof Block.EVENTS;
+
+type CallbackType = (...args: any[]) => any
 
 export default class EventBus {
     listeners: Record<string, Array<CallbackType>>;
@@ -9,21 +11,21 @@ export default class EventBus {
         this.listeners = {};
     }
 
-    on(event: EventType, callback: CallbackType) {
+    on(event: Events, callback: CallbackType) {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
         this.listeners[event].push(callback);
     }
 
-    off(event: EventType, callback: CallbackType) {
+    off(event: Events, callback: CallbackType) {
         if (!this.listeners[event]) {
             throw new Error(`Нет события: ${event}`);
         }
         this.listeners[event] = this.listeners[event].filter((listener) => listener !== callback);
     }
 
-    emit(event: EventType, ...args: unknown[]) {
+    emit(event: Events, ...args: unknown[]) {
         if (!this.listeners[event]) {
             return;
             // throw new Error(`Нет события: ${event}`);

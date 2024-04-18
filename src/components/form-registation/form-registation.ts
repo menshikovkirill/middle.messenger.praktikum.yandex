@@ -4,12 +4,6 @@ import { Button } from "../button";
 import { Input } from "../input";
 
 export default class FormLogin extends Block {
-    count = 0;
-
-    constructor(props) {
-        super(props);
-    }
-
     init() {
         const onLoginBind = this.onLogin.bind(this);
         const onPasswordBind = this.onPassword.bind(this);
@@ -115,13 +109,6 @@ export default class FormLogin extends Block {
     }
 
     onCheck() {
-        this.onLogin();
-        this.onPassword();
-        this.onEmail();
-        this.onSecondName();
-        this.onFirstName();
-        this.onPhoneName();
-
         return [
             this.onLogin(),
             this.onPassword(),

@@ -4,12 +4,6 @@ import { Button } from "../button";
 import { Input } from "../input";
 
 export default class FormLogin extends Block {
-    count = 0;
-
-    constructor(props) {
-        super(props);
-    }
-
     init() {
         const onLoginBind = this.onLogin.bind(this);
         const onPasswordBind = this.onPassword.bind(this);
@@ -47,16 +41,18 @@ export default class FormLogin extends Block {
     }
 
     onLogin() {
-        validateForm(this.children.Login, 'login', 'Логин не подходит под условие валидации');
+        return validateForm(this.children.Login, 'login', 'Логин не подходит под условие валидации');
     }
 
     onPassword() {
-        validateForm(this.children.Password, 'password', 'Пароль не подходит под условие валидации');
+        return validateForm(this.children.Password, 'password', 'Пароль не подходит под условие валидации');
     }
 
     onCheck() {
-        this.onLogin();
-        this.onPassword();
+        return [
+            this.onLogin(),
+            this.onPassword(),
+        ].filter((x) => !x).length === 0;
     }
 
     render() {

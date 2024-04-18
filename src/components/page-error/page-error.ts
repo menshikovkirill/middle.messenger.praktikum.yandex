@@ -1,10 +1,6 @@
 import Block from "../../core/Block";
 
 export default class PageError extends Block {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             `

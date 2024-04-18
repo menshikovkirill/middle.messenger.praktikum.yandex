@@ -9,6 +9,11 @@
         }
     },
     "rules": {
+        "indent": "off",
+        "quotes": "off",
+        "no-useless-constructor": "off",
+        "no-underscore-dangle": "off",
+        "class-methods-use-this": "off",
         "import/extensions": [
             "error",
             "ignorePackages",

@@ -25,7 +25,7 @@ const pages = {
   profilePassword: [Pages.ProfilePassword, {
     profileImage,
   }],
-} as Record<string, Array<string>>;
+};
 
 Object.entries(Components).forEach(([name, component]) => {
   Handlebars.registerPartial(name, component);
@@ -34,10 +34,17 @@ Object.entries(Components).forEach(([name, component]) => {
 function navigate(page: string) {
   const [source, context] = pages[page];
   const container = document.getElementById('app')!;
+  if (source instanceof Object) {
+    const page = new source(context);
+    container.innerHTML = '';
+    container.append(page.getContent());
+    return;
+  }
+
   container.innerHTML = Handlebars.compile(source)(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('nav'));
+document.addEventListener('DOMContentLoaded', () => navigate('login'));
 
 document.addEventListener('click', (e) => {
   const target = e?.target as HTMLInputElement;

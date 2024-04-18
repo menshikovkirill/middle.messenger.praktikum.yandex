@@ -21,15 +21,20 @@ export default class LoginPage extends Block {
 
     onSubmit(e) {
         e.preventDefault();
-        this.children.FormLogin.children.formBody.onCheck();
-        const form = e.target;
-        const values = {};
-        Object.keys(form.elements).forEach(key => {
-            let element = form.elements[key];
-            if (element.type !== "submit" && element.value) {
-                values[element.name] = element.value;
-            }
-        });
+        const isValidated = this.children.FormLogin.children.formBody.onCheck();
+
+        if (isValidated) {
+            const form = e.target;
+            const values = {};
+            Object.keys(form.elements).forEach(key => {
+                let element = form.elements[key];
+                if (element.type !== "submit" && element.value) {
+                    values[element.name] = element.value;
+                }
+            });
+
+            console.log(values);
+        }
     }
 
     render() {

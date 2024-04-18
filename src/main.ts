@@ -44,7 +44,7 @@ function navigate(page: string) {
   container.innerHTML = Handlebars.compile(source)(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('registration'));
+document.addEventListener('DOMContentLoaded', () => navigate('serverError'));
 
 document.addEventListener('click', (e) => {
   const target = e?.target as HTMLInputElement;

@@ -3,11 +3,11 @@ import Handlebars from 'handlebars';
 import EventBus, { Events } from './EventBus';
 
 type MetaType = {
-    props?: any;
+    props?: unknown;
     tagName?: string;
 }
 
-export default class Block<T = any> {
+export default class Block<T = unknown> {
     static EVENTS = {
         INIT: 'init',
         FLOW_CDM: 'flow:component-did-mount',
@@ -36,13 +36,13 @@ export default class Block<T = any> {
 
         this.eventBus = () => eventBus;
 
-
         this._registerEvents(eventBus);
 
         eventBus.emit(Block.EVENTS.INIT as Events);
     }
 
     _addEvents() {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const events: Record<string, () => void> = (this.props as any).events || {};
 
         Object.keys(events).forEach((eventName) => {
@@ -51,6 +51,7 @@ export default class Block<T = any> {
     }
 
     _removeEvents() {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const events: Record<string, () => void> = (this.props as any).events || {};
 
         Object.keys(events).forEach((eventName) => {
@@ -68,7 +69,7 @@ export default class Block<T = any> {
     _createResources() {
         let tagName;
         if (this._meta) {
-            tagName = this._meta.tagName
+            tagName = this._meta.tagName;
         }
 
         this._element = this._createDocumentElement(tagName || '');
@@ -89,11 +90,16 @@ export default class Block<T = any> {
         this.componentDidMount();
 
         Object.values(this.children).forEach((child) => {
+            console.log(this.children)
             child.dispatchComponentDidMount();
         });
     }
 
-    componentDidUpdate(_oldProps: T, _newProps: T) {
+    componentDidUpdate(oldProps: T, newProps: T) {
+        if (oldProps === newProps) {
+            return false;
+        }
+
         return true;
     }
 
@@ -151,19 +157,19 @@ export default class Block<T = any> {
         const fragment = this._createDocumentElement('template');
 
         fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
-        const newElement = fragment.content.firstElementChild;
+        const newElement = (fragment as HTMLTemplateElement).content.firstElementChild as Element;
 
-        Object.values(this.children).forEach((child) => {
-            const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+        Object.values(this.children).forEach((child: Block) => {
+            const stub = (fragment as HTMLTemplateElement).content.querySelector(`[data-id="${child._id}"]`);
 
-            stub?.replaceWith(child.getContent());
+            stub?.replaceWith(child.getContent() as Node);
         });
 
         if (this._element) {
             this._element.replaceWith(newElement);
         }
 
-        this._element = newElement;
+        this._element = newElement as HTMLElement;
 
         this._addEvents();
     }

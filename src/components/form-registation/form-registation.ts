@@ -1,9 +1,8 @@
-import Block from "../../core/Block";
-import { validateForm } from "../../utils/validate";
+import FormBlock from "../../core/Form";
 import { Button } from "../button";
 import { Input } from "../input";
 
-export default class FormLogin extends Block {
+export default class FormLogin extends FormBlock {
     init() {
         const onLoginBind = this.onLogin.bind(this);
         const onPasswordBind = this.onPassword.bind(this);
@@ -82,30 +81,6 @@ export default class FormLogin extends Block {
                 type: "primary",
             }),
         };
-    }
-
-    onEmail() {
-        return validateForm(this.children.Email, 'email', 'Email не подходит под условие валидации');
-    }
-
-    onLogin() {
-        return validateForm(this.children.Login, 'login', 'Логин не подходит под условие валидации');
-    }
-
-    onPassword() {
-        return validateForm(this.children.Password, 'password', 'Пароль не подходит под условие валидации');
-    }
-
-    onSecondName() {
-        return validateForm(this.children.SecondName, 'second_name', 'Фамилия не подходит под условие валидации');
-    }
-
-    onFirstName() {
-        return validateForm(this.children.FirstName, 'first_name', 'Имя не подходит под условие валидации');
-    }
-
-    onPhoneName() {
-        return validateForm(this.children.Phone, 'phone', 'Телефон не подходит под условие валидации');
     }
 
     onCheck() {

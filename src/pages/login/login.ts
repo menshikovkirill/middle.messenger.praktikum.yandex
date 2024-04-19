@@ -1,6 +1,6 @@
-import { Form } from "../../components";
-import { FormLogin } from "../../components/form-login";
+import { Form, FormLogin } from "../../components";
 import Block from "../../core/Block";
+import { getInputesValue } from "../../utils/submit";
 
 export default class LoginPage extends Block {
     init() {
@@ -21,20 +21,14 @@ export default class LoginPage extends Block {
 
     onSubmit(e: Event) {
         e.preventDefault();
-        const isValidated = (this.children.FormLogin.children.formBody as FormLogin).onCheck();
+        const values = getInputesValue(this.children.FormLogin.children.formBody as FormLogin, e);
 
-        if (isValidated) {
-            const form = e.target as HTMLFormElement;
-            const values: Record<string, string> = {};
-            Object.keys(form?.elements).forEach(key => {
-                let element = form?.elements[key as unknown as number] as HTMLInputElement;
-                if (element.type !== "submit" && element.value) {
-                    values[element.name] = element.value;
-                }
-            });
-
+        if (values) {
             console.log(values);
+            return true;
         }
+
+        return false;
     }
 
     render() {

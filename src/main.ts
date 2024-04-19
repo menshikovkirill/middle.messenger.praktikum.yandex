@@ -14,39 +14,37 @@ const pages = {
     NotFound: [Pages.NotFound],
     ServerError: [Pages.ServerError],
     Profile: [Pages.Profile, {
-        FormD: true,
         name: 'Kirill',
         email: 'menshikov-kir@yandex.ru',
         login: 'menshikov-kir',
         firstName: 'Кирилл',
         secondName: 'Меньшиков',
         displayName: 'Kirill',
-        phone: '+7 (909) 967 30 30',
+        phone: '+79099673030',
         profileImage,
     }],
-    // profilePassword: [Pages.ProfilePassword, {
-    // profileImage,
-} as Record<PagesType, any[]>;
+    ProfilePassword: [Pages.ProfilePassword, { profileImage, name: 'Кирилл' }],
+} as Record<PagesType, Array<any>>;
 
 Object.entries(Components).forEach(([name, component]) => {
   Handlebars.registerPartial(name, component as Handlebars.Template);
 });
 
 function navigate(page: PagesType) {
-  const [source, context] = pages[page];
+  const [Source, context] = pages[page];
   const container = document.getElementById('app')!;
 
-  if (source instanceof Object) {
-    const page = new source(context);
+  if (Source instanceof Object) {
+    const pageSource = new Source(context);
     container.innerHTML = '';
-    container.append(page.getContent());
+    container.append(pageSource.getContent());
     return;
   }
 
-  container.innerHTML = Handlebars.compile(source)(context);
+  container.innerHTML = Handlebars.compile(Source)(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('LoginPage'));
+document.addEventListener('DOMContentLoaded', () => navigate('Profile'));
 
 document.addEventListener('click', (e) => {
   const target = e?.target as HTMLInputElement;

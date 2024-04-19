@@ -9,3 +9,6 @@ export { PageProfile } from './page-profile';
 export { PageError } from './page-error';
 export { Search } from './search';
 export { ProfileImage } from './profile-image';
+export { FormProfile } from './form-profile';
+export { FormLogin } from './form-login';
+export { FormRegistration } from './form-registation';

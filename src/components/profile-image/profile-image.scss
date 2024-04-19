@@ -5,4 +5,32 @@
     height: 140px;
     align-self: center;
     border-radius: 70px;
+    position: relative;
+    width: 140px;
+    background-color: $img-background;
+
+    img {
+        width: 140px;
+    }
+
+    .text {
+        position: absolute;
+        top: 50px;
+        display: none;
+        cursor: pointer;
+
+        text-align: center;
+        width: 135px;
+        color: white;
+    }
+
+    &:hover {
+        .text {
+            display: block;
+        }
+
+        img {
+            opacity: 0.5;
+        }
+    }
 }

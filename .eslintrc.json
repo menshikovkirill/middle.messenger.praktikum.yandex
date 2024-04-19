@@ -1,6 +1,6 @@
 {
     "root": true,
-    // "extends": ["airbnb", "plugin:@typescript-eslint/recommended"],
+    "extends": ["airbnb", "plugin:@typescript-eslint/recommended"],
     "settings": {
         "import/resolver": {
           "node": {
@@ -14,6 +14,7 @@
         "no-useless-constructor": "off",
         "no-underscore-dangle": "off",
         "class-methods-use-this": "off",
+        "max-len": ["error", { "code": 120 }],
         "@typescript-eslint/no-this-alias": "off",
         "import/extensions": [
             "error",

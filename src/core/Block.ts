@@ -90,7 +90,6 @@ export default class Block<T = unknown> {
         this.componentDidMount();
 
         Object.values(this.children).forEach((child) => {
-            console.log(this.children)
             child.dispatchComponentDidMount();
         });
     }

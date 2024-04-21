@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "npm run lint && tsc && vite build",
+    "build": "tsc && vite build",
     "start": "npm run build && node ./server.js",
     "preview": "vite preview",
     "lint": "node_modules/.bin/eslint ."
@@ -24,7 +24,8 @@
     "express": "^4.19.2",
     "handlebars": "^4.7.8",
     "nanoid": "^5.0.7",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.4",
+    "vite": "^5.2.9"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
@@ -32,7 +33,6 @@
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "sass": "^1.74.1",
-    "vite": "^5.2.8",
     "vite-plugin-handlebars": "^2.0.0"
   }
 }

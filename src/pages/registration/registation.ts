@@ -8,7 +8,7 @@ export default class RegistrationPage extends Block {
 
         this.children = {
             ...this.children,
-            FormLogin: new Form({
+            FormRegistation: new Form({
                 title: 'Регистрация',
                 type: "with-shadow",
                 formBody: new FormRegistration({}),
@@ -34,7 +34,7 @@ export default class RegistrationPage extends Block {
     render() {
         return `
             {{#>Page type="center"}}
-                {{{ FormLogin }}}
+                {{{ FormRegistation }}}
             {{/Page}}
         `;
     }

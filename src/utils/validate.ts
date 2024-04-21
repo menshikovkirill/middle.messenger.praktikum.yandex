@@ -1,3 +1,5 @@
+import Block from "../core/Block";
+
 export const validate = (value: string, inputName: string) => {
     switch (inputName) {
         case 'login':
@@ -17,13 +19,14 @@ export const validate = (value: string, inputName: string) => {
     }
 };
 
-export const validateForm = (element, ruleName, errorMessage) => {
-    const inputValue = element.getContent().querySelector('input').value;
-    const check = validate(inputValue, ruleName);
+export const validateForm = (element: Block<unknown>, ruleName: string, errorMessage: string) => {
+    const inputValue = element?.getContent()?.querySelector('input')?.value;
+    const check = inputValue && validate(inputValue, ruleName);
+    const { props } = element as { props: object };
 
     if (!check) {
         element.setProps({
-            ...element.props,
+            ...props,
             value: inputValue,
             errorMessage,
         });
@@ -31,7 +34,7 @@ export const validateForm = (element, ruleName, errorMessage) => {
     }
 
     element.setProps({
-        ...element.props,
+        ...props,
         value: inputValue,
         errorMessage: '',
     });

@@ -2,6 +2,7 @@ import Block from './Block';
 
 export type Events = keyof typeof Block.EVENTS;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CallbackType = (...args: any[]) => any
 
 export default class EventBus {

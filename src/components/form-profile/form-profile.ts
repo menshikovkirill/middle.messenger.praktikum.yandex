@@ -142,6 +142,7 @@ export default class FormProfile extends FormBlock<ProfileProps> {
         this.children.EditData.hide();
         this.children.EditPassword.hide();
         this.children.LogOut.hide();
+        this.children.Save.show();
     }
 
     onSavedData() {
@@ -149,6 +150,7 @@ export default class FormProfile extends FormBlock<ProfileProps> {
         this.children.EditPassword.show();
         this.children.LogOut.hide();
         this.toggleInputs(true);
+        this.children.Save.hide();
     }
 
     onCheck() {

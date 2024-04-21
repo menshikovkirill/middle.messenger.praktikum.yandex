@@ -24,6 +24,7 @@ const pages = {
         profileImage,
     }],
     ProfilePassword: [Pages.ProfilePassword, { profileImage, name: 'Кирилл' }],
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as Record<PagesType, Array<any>>;
 
 Object.entries(Components).forEach(([name, component]) => {
@@ -44,7 +45,7 @@ function navigate(page: PagesType) {
   container.innerHTML = Handlebars.compile(Source)(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('Profile'));
+document.addEventListener('DOMContentLoaded', () => navigate('ChatPage'));
 
 document.addEventListener('click', (e) => {
   const target = e?.target as HTMLInputElement;

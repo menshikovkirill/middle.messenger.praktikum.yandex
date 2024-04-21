@@ -108,6 +108,7 @@ export default class Block<T = unknown> {
 
     _componentDidUpdate(oldProps: T, newProps: T) {
         const response = this.componentDidUpdate(oldProps, newProps);
+
         if (!response) {
             return;
         }

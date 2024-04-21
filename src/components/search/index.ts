@@ -1,3 +1,3 @@
 import './search.scss';
 
-export { default as Search } from './search.hbs?raw';
+export { default as SearchFrom } from './search';

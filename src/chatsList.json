@@ -1,0 +1,41 @@
+{
+    "1": {
+        "id": 1,
+        "name": "Kirill",
+        "image": "",
+        "message": "Привет, как дела?Привет, как дела?Привет, как дела?Привет, как дела?Привет, как дела?"
+    },
+    "2": {
+        "id": 2,
+        "name": "Андрей",
+        "image": "",
+        "message": "Привет! Привет! Привет!",
+        "MessageCount": 2
+    },
+    "4433": {
+        "id": 4433,
+        "name": "Destroy2",
+        "image": "",
+        "message": "Пока! Пка! ПОка!"
+    },
+    "542": {
+        "id": 542,
+        "name": "Destroy32",
+        "image": "",
+        "message": "Hi!",
+        "MessageCount": 10
+    },
+    "534": {
+        "id": 534,
+        "name": "Destroy43",
+        "image": "",
+        "message": "Helllllooo"
+    },
+    "1053": {
+        "id": 1053,
+        "name": "Destroy53",
+        "image": "",
+        "message": "Пока! Пка! ПОка!",
+        "MessageCount": 1
+    }
+}

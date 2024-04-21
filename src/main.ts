@@ -2,6 +2,9 @@ import Handlebars from 'handlebars';
 import * as Components from './components';
 import * as Pages from './pages';
 
+import chatsList from './chatsList.json';
+import dialogData from './dialogData.json';
+
 import profileImage from './assets/empty-img.svg';
 
 type PagesType = keyof typeof Pages;
@@ -10,7 +13,11 @@ const pages = {
     LoginPage: [Pages.LoginPage],
     RegistrationPage: [Pages.RegistrationPage],
     NavigatePage: [Pages.NavigatePage],
-    ChatPage: [Pages.ChatPage],
+    ChatPage: [Pages.ChatPage, {
+        chatsList,
+        activeId: null,
+        dialogData,
+    }],
     NotFound: [Pages.NotFound],
     ServerError: [Pages.ServerError],
     Profile: [Pages.Profile, {
@@ -45,7 +52,7 @@ function navigate(page: PagesType) {
   container.innerHTML = Handlebars.compile(Source)(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('ChatPage'));
+document.addEventListener('DOMContentLoaded', () => navigate('NavigatePage'));
 
 document.addEventListener('click', (e) => {
   const target = e?.target as HTMLInputElement;

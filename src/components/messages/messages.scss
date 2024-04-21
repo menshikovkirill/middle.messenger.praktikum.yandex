@@ -1,0 +1,16 @@
+
+@import "./../../default";
+
+.messages {
+    .header {
+        border-bottom: 1px solid black;
+        display: flex;
+        padding: 10px 40px;
+    }
+
+    img {
+        width: 47px;
+        height: 47px;
+        margin-right: 30px;
+    }
+}

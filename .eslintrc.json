@@ -4,13 +4,14 @@
     "settings": {
         "import/resolver": {
           "node": {
-            "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            "extensions": [".js", ".jsx", ".ts", ".tsx", ".hbs?raw"]
           }
         }
     },
     "rules": {
         "indent": "off",
         "quotes": "off",
+        "no-shadow": "off",
         "no-useless-constructor": "off",
         "no-underscore-dangle": "off",
         "class-methods-use-this": "off",

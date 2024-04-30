@@ -1,17 +1,20 @@
 import Block from "../../core/Block";
+import { DialogDataMeesage } from "../../pages/chat/chat";
 import { Messages } from "../messages";
 
 type Props = {
     messageId?: string;
-    message?: string;
+    name?: string;
+    data?: DialogDataMeesage;
 };
 
 export default class Dialog extends Block<Props> {
     init() {
         this.children = {
             ...this.children,
-            Message: new Messages({
+            Messages: new Messages({
                 name: 'Kirill',
+                data: this.props.data,
             }),
         };
     }
@@ -21,8 +24,9 @@ export default class Dialog extends Block<Props> {
             return false;
         }
 
-        this.children.Message.setProps({
-            name: this.props.message,
+        this.children.Messages.setProps({
+            name: this.props.name,
+            data: this.props.data,
         });
 
         return true;
@@ -31,7 +35,7 @@ export default class Dialog extends Block<Props> {
     render() {
         return `
             {{#if messageId}}<div class="dialog">
-            {{{Message}}}
+                {{{Messages}}}
             </div>
             {{else}}<div class="message-screen">
                 <p>Выберите чат чтобы отправить сообщение</p>

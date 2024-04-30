@@ -11,8 +11,80 @@
                 "my": false
             },
             {
-                "message": "how are you",
+                "message": "how are you?",
                 "my": false
+            },
+            {
+                "message": "I'm fine and you?",
+                "my": true
+            },
+            {
+                "message": "I'm fine too. Do you want to go out?",
+                "my": false
+            },
+            {
+                "message": "hi",
+                "my": true
+            },
+            {
+                "message": "hello",
+                "my": false
+            },
+            {
+                "message": "how are you?",
+                "my": false
+            },
+            {
+                "message": "I'm fine and you?",
+                "my": true
+            },
+            {
+                "message": "I'm fine too. Do you want to go out?",
+                "my": false
+            },
+            {
+                "message": "hi",
+                "my": true
+            },
+            {
+                "message": "hello",
+                "my": false
+            },
+            {
+                "message": "how are you?",
+                "my": false
+            },
+            {
+                "message": "I'm fine and you?",
+                "my": true
+            },
+            {
+                "message": "I'm fine too. Do you want to go out?",
+                "my": false
+            },
+            {
+                "message": "hi",
+                "my": true
+            },
+            {
+                "message": "hello",
+                "my": false
+            },
+            {
+                "message": "how are you?",
+                "my": false
+            },
+            {
+                "message": "I'm fine and you?",
+                "my": true
+            },
+            {
+                "message": "I'm fine too. Do you want to go out?",
+                "my": false
+            },
+            {
+                "message": "YES",
+                "my": true
             }
         ]
     },

@@ -8,10 +8,14 @@ type ChatsListProps = {
     message: string,
 }
 
-interface DialogData {
+export type DialogDataMeesage = Array<{
+    message: string; my: boolean;
+}>
+
+export interface DialogData {
     [key: string]: {
-      name: string;
-      messages: { message: string; my: boolean }[];
+        name: string;
+        messages: DialogDataMeesage;
     };
 }
 
@@ -42,12 +46,11 @@ export default class ChatPage extends Block<Props> {
 
     onMessageClick(id: string) {
         this.messageId = id;
-        this.children.Dialog.setProps({
-            messageId: id,
-        });
 
         this.children.Dialog.setProps({
-            message: this.props.dialogData?.[id].name,
+            messageId: id,
+            name: this.props.dialogData?.[id].name,
+            data: this.props.dialogData?.[id],
         });
     }
 

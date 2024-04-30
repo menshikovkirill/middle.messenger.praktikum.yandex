@@ -21,7 +21,7 @@ export default class RegistrationPage extends Block {
 
     onSubmit(e: Event) {
         e.preventDefault();
-        const values = getInputesValue(this.children.FormLogin.children.formBody as FormRegistration, e);
+        const values = getInputesValue(this.children.FormRegistation.children.formBody as FormRegistration, e);
 
         if (values) {
             console.log(values);

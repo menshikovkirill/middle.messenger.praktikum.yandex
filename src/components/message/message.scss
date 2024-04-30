@@ -1,0 +1,32 @@
+@import "./../../default";
+
+.message {
+    display: flex;
+    height: 90px;
+
+    border-bottom: 1px solid $border-secondary;
+
+    img {
+        width: 47px;
+        height: 47px;
+        align-self: center;
+        margin-right: 25px;
+    }
+
+    .name {
+        font-weight: 600;
+    }
+
+    .text {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &:hover, &.active {
+        background-color: $second-color;
+        cursor: pointer;
+    }
+}

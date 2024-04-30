@@ -3,6 +3,7 @@
 Команды:
 npm run start - запускает проект
 npm run dev - режим разработки
+npm run lint - линтеры
 
 Сайт опубликован здесь - https://thunderous-donut-49aa9c.netlify.app/
 

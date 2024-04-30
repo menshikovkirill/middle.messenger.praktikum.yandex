@@ -1,2 +1,3 @@
-import './search.scss'
-export { default as Search } from './search.hbs?raw';
+import './search.scss';
+
+export { default as SearchFrom } from './search';

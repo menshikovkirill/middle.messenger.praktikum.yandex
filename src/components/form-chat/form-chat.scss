@@ -1,0 +1,39 @@
+@import "./../../default";
+
+.form-chat {
+    .messages-form-content {
+        display: flex;
+        padding: 10px;
+        align-items: center;
+
+        .input-content {
+            width: 100%;
+            .input {
+                margin-bottom: 0;
+                input {
+                    width: calc(100% - 20px);
+                    height: 30px;
+                    background-color: $background-primary;
+                    border: none;
+                    border-radius: 20px;
+                    padding-left: 20px;
+                }
+            }
+        }
+
+        button {
+            border: none;
+            background-color: $main-color;
+            cursor: pointer;
+            margin-left: 10px;
+            border-radius: 20px;
+            color: white;
+            height: 30px;
+            width: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+

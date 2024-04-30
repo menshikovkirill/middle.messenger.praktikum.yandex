@@ -1,3 +1,3 @@
 import './page-profile.scss';
 
-export { default as PageProfile } from './page-profile.hbs?raw';
+export { default as PageProfile } from './page-profile';

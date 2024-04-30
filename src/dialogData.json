@@ -1,0 +1,168 @@
+{
+    "1": {
+        "name": "Kirill",
+        "messages": [
+            {
+                "message": "hi",
+                "my": true
+            },
+            {
+                "message": "hello",
+                "my": false
+            },
+            {
+                "message": "how are you?",
+                "my": false
+            },
+            {
+                "message": "I'm fine and you?",
+                "my": true
+            },
+            {
+                "message": "I'm fine too. Do you want to go out?",
+                "my": false
+            },
+            {
+                "message": "hi",
+                "my": true
+            },
+            {
+                "message": "hello",
+                "my": false
+            },
+            {
+                "message": "how are you?",
+                "my": false
+            },
+            {
+                "message": "I'm fine and you?",
+                "my": true
+            },
+            {
+                "message": "I'm fine too. Do you want to go out?",
+                "my": false
+            },
+            {
+                "message": "hi",
+                "my": true
+            },
+            {
+                "message": "hello",
+                "my": false
+            },
+            {
+                "message": "how are you?",
+                "my": false
+            },
+            {
+                "message": "I'm fine and you?",
+                "my": true
+            },
+            {
+                "message": "I'm fine too. Do you want to go out?",
+                "my": false
+            },
+            {
+                "message": "hi",
+                "my": true
+            },
+            {
+                "message": "hello",
+                "my": false
+            },
+            {
+                "message": "how are you?",
+                "my": false
+            },
+            {
+                "message": "I'm fine and you?",
+                "my": true
+            },
+            {
+                "message": "I'm fine too. Do you want to go out?",
+                "my": false
+            },
+            {
+                "message": "YES",
+                "my": true
+            }
+        ]
+    },
+    "2": {
+        "name": "Андрей",
+        "messages": [
+            {
+                "message": "Привет! Привет! Привет!",
+                "my": false
+            },
+            {
+                "message": "hello",
+                "my": false
+            }
+        ]
+    },
+    "4433":{
+        "name": "Destroy2",
+        "messages": [
+            {
+                "message": "Пока! Пка! ПОка!",
+                "my": true
+            },
+            {
+                "message": "hello",
+                "my": false
+            },
+            {
+                "message": "how are you",
+                "my": false
+            }
+        ]
+    },
+    "542":{
+        "name": "Destroy32",
+        "messages": [
+            {
+                "message": "hi 1111",
+                "my": true
+            },
+            {
+                "message": "how are you",
+                "my": false
+            }
+        ]
+    },
+    "534": {
+        "name": "Destroy43",
+        "messages": [
+            {
+                "message": "hi, where are you",
+                "my": true
+            },
+            {
+                "message": "I'm in Mocsw",
+                "my": false
+            },
+            {
+                "message": "how are you",
+                "my": true
+            }
+        ]
+    },
+    "1053": {
+        "name": "Destroy53",
+        "messages": [
+            {
+                "message": "hi hi hi hi hi hi hi ih",
+                "my": true
+            },
+            {
+                "message": "Stop stop stop",
+                "my": false
+            },
+            {
+                "message": "how are you",
+                "my": false
+            }
+        ]
+    }
+}

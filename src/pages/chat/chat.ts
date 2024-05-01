@@ -1,5 +1,13 @@
-import { Dialog, SearchFrom } from "../../components";
+import {
+    Dialog,
+    Form,
+    Popup,
+    SearchFrom,
+} from "../../components";
 import Block from "../../core/Block";
+import { Props as PopupProps } from '../../components/popup/popup';
+import { ChatUsersForm } from "../../components/chat-users-form";
+import { getInputesValue } from "../../utils/submit";
 
 type ChatsListProps = {
     id: string,
@@ -23,6 +31,7 @@ type Props = {
     activeId: string | null;
     chatsList: Array<ChatsListProps>;
     dialogData: DialogData;
+    click: (e: Event) => void;
 };
 
 export default class ChatPage extends Block<Props> {
@@ -30,6 +39,10 @@ export default class ChatPage extends Block<Props> {
 
     init() {
         const onMessageClickBind = this.onMessageClick.bind(this);
+        const onPopupAddUserToggleBind = this.onPopupAddUserToggle.bind(this);
+        const onPopupRemoveUserToggleBind = this.onPopupRemoveUserToggle.bind(this);
+        const onSubmitAddUserBind = this.onSubmitAddUser.bind(this);
+        const onSubmitRemoveUserBind = this.onSubmitRemoveUser.bind(this);
 
         this.children = {
             ...this.children,
@@ -40,6 +53,34 @@ export default class ChatPage extends Block<Props> {
             }) as Block<unknown>,
             Dialog: new Dialog({
                 messageId: this.messageId,
+                clickAddUser: onPopupAddUserToggleBind,
+                clickRemoveUser: onPopupRemoveUserToggleBind,
+            }) as Block<unknown>,
+            PopupAddUser: new Popup({
+                type: '',
+                popupBody: new Form({
+                    title: "Добавить пользователя",
+                    formBody: new ChatUsersForm({
+                        buttonText: "Добавить",
+                    }),
+                    events: {
+                        submit: onSubmitAddUserBind,
+                    },
+                }),
+                click: onPopupAddUserToggleBind,
+            }) as Block<unknown>,
+            PopupRemoveUser: new Popup({
+                type: '',
+                popupBody: new Form({
+                    title: "Удалить пользователя",
+                    formBody: new ChatUsersForm({
+                        buttonText: "Удалить",
+                    }),
+                    events: {
+                        submit: onSubmitRemoveUserBind,
+                    },
+                }),
+                click: onPopupRemoveUserToggleBind,
             }) as Block<unknown>,
         };
     }
@@ -54,12 +95,60 @@ export default class ChatPage extends Block<Props> {
         });
     }
 
+    onPopupAddUserToggle(e: Event) {
+        e.preventDefault();
+        this.children.PopupAddUser.setProps({
+            type: (this.children.PopupAddUser.props as PopupProps).type === 'active' ? '' : 'active',
+        });
+    }
+
+    onPopupRemoveUserToggle(e: Event) {
+        e.preventDefault();
+        this.children.PopupRemoveUser.setProps({
+            type: (this.children.PopupRemoveUser.props as PopupProps).type === 'active' ? '' : 'active',
+        });
+    }
+
+    onSubmitAddUser(e: Event) {
+        e.preventDefault();
+
+        const values = getInputesValue(
+            this.children.PopupAddUser.children.popupBody.children.formBody as ChatUsersForm,
+            e,
+        );
+
+        if (values) {
+            console.log(values);
+            return true;
+        }
+
+        return false;
+    }
+
+    onSubmitRemoveUser(e: Event) {
+        e.preventDefault();
+
+        const values = getInputesValue(
+            this.children.PopupRemoveUser.children.popupBody.children.formBody as ChatUsersForm,
+            e,
+        );
+
+        if (values) {
+            console.log(values);
+            return true;
+        }
+
+        return false;
+    }
+
     render() {
         return `
             {{#>Page type="center"}}
                 <div class="chat">
                     {{{ Search }}}
                     {{{ Dialog }}}
+                    {{{ PopupAddUser }}}
+                    {{{ PopupRemoveUser }}}
                 </div>
             {{/Page}}
         `;

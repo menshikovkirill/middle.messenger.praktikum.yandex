@@ -4,15 +4,19 @@ import { ChatMessage } from "../chat-message";
 import { DialogDataMeesage } from "../../pages/chat/chat";
 import { FormChat } from "../form-chat";
 import { getInputesValue } from "../../utils/submit";
+import { UsersButton } from "../users-button";
 
 type Props = {
+    name?: string;
     data?: {
-        name?: string,
-        messages?: DialogDataMeesage;
+        name: string,
+        messages: DialogDataMeesage;
     }
+    clickAddUser: (e: Event) => void;
+    clickRemoveUser: (e: Event) => void;
 }
 
-export default class Messages extends Block {
+export default class Messages extends Block<Props> {
     init() {
         const onSubmitBind = this.onSubmit.bind(this);
 
@@ -24,6 +28,18 @@ export default class Messages extends Block {
             FormChat: new FormChat({
                 events: {
                     submit: onSubmitBind,
+                },
+            }),
+            AddUsersButton: new UsersButton({
+                text: '+',
+                events: {
+                    click: this.props.clickAddUser,
+                },
+            }),
+            RemoveUsersButton: new UsersButton({
+                text: '-',
+                events: {
+                    click: this.props.clickRemoveUser,
                 },
             }),
         };
@@ -59,6 +75,10 @@ export default class Messages extends Block {
                 <div class="header">
                     <img src="${defaultImg}" />
                     <p>{{name}}</p>
+                    <div class="users-button-content">
+                        <div>{{{AddUsersButton}}}</div>
+                        <div>{{{RemoveUsersButton}}}</div>
+                    </div>
                 </div>
                 <div class="content">
                     {{{ChatMessage}}}

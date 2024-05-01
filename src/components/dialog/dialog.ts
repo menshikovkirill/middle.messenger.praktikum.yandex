@@ -5,7 +5,12 @@ import { Messages } from "../messages";
 type Props = {
     messageId?: string;
     name?: string;
-    data?: DialogDataMeesage;
+    data?: {
+        name: string,
+        messages: DialogDataMeesage;
+    }
+    clickAddUser: (e: Event) => void;
+    clickRemoveUser: (e: Event) => void;
 };
 
 export default class Dialog extends Block<Props> {
@@ -15,7 +20,9 @@ export default class Dialog extends Block<Props> {
             Messages: new Messages({
                 name: 'Kirill',
                 data: this.props.data,
-            }),
+                clickAddUser: this.props.clickAddUser,
+                clickRemoveUser: this.props.clickRemoveUser,
+            }) as Block<unknown>,
         };
     }
 

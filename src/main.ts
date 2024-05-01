@@ -52,7 +52,7 @@ function navigate(page: PagesType) {
   container.innerHTML = Handlebars.compile(Source)(context);
 }
 
-document.addEventListener('DOMContentLoaded', () => navigate('NavigatePage'));
+document.addEventListener('DOMContentLoaded', () => navigate('ChatPage'));
 
 document.addEventListener('click', (e) => {
   const target = e?.target as HTMLInputElement;

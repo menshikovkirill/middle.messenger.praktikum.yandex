@@ -2,7 +2,7 @@ import {
     Dialog,
     Form,
     Popup,
-    SearchFrom,
+    ChatList,
 } from "../../components";
 import Block from "../../core/Block";
 import { Props as PopupProps } from '../../components/popup/popup';
@@ -46,7 +46,7 @@ export default class ChatPage extends Block<Props> {
 
         this.children = {
             ...this.children,
-            Search: new SearchFrom({
+            ChatList: new ChatList({
                 chatsList: this.props.chatsList,
                 onClick: onMessageClickBind,
                 activeId: this.messageId,
@@ -145,7 +145,7 @@ export default class ChatPage extends Block<Props> {
         return `
             {{#>Page type="center"}}
                 <div class="chat">
-                    {{{ Search }}}
+                    {{{ ChatList }}}
                     {{{ Dialog }}}
                     {{{ PopupAddUser }}}
                     {{{ PopupRemoveUser }}}

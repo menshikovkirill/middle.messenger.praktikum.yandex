@@ -15,7 +15,7 @@ type Props = {
     activeId?: string | null,
 };
 
-export default class SearchForm extends Block<Props> {
+export default class ChatList extends Block<Props> {
     choosedElem: Block<unknown> | undefined;
 
     constructor(props: Props) {

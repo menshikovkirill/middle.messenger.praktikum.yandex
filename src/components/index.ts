@@ -6,7 +6,7 @@ export { Form } from './form';
 export { Page } from './page';
 export { PageProfile } from './page-profile';
 export { PageError } from './page-error';
-export { SearchFrom } from './search';
+export { ChatList } from './chat-list';
 export { ProfileImage } from './profile-image';
 export { FormProfile } from './form-profile';
 export { FormLogin } from './form-login';

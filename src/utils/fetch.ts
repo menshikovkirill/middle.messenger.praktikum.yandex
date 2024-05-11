@@ -18,42 +18,42 @@ type OptionsWithoutMethod = Omit<Options, 'method'>;
 // type OptionsWithoutMethod = { data?: any };
 
 export class HTTPTransport {
-    get(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-        return this.request(url, { ...options, method: METHOD.GET });
+    private apiUrl: string = '';
+
+    constructor(apiPath: string) {
+        this.apiUrl = `https://ya-praktikum.tech/api/v2${apiPath}`;
     }
 
-    post(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-        return this.request(url, { ...options, method: METHOD.POST });
+    get<TResponse>(url: string, options: OptionsWithoutMethod = {}): Promise<TResponse> {
+        return this.request<TResponse>(`${this.apiUrl}${url}`, { ...options, method: METHOD.GET });
     }
 
-    put(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-        return this.request(url, { ...options, method: METHOD.PUT });
+    post<TResponse>(url: string, options: OptionsWithoutMethod = {}): Promise<TResponse> {
+        return this.request<TResponse>(`${this.apiUrl}${url}`, { ...options, method: METHOD.POST });
     }
 
-    delete(url: string, options: OptionsWithoutMethod = {}): Promise<XMLHttpRequest> {
-        return this.request(url, { ...options, method: METHOD.DELETE });
+    put<TResponse>(url: string, options: OptionsWithoutMethod = {}): Promise<TResponse> {
+        return this.request<TResponse>(`${this.apiUrl}${url}`, { ...options, method: METHOD.PUT });
     }
 
-    request(url: string, options: Options = { method: METHOD.GET }): Promise<XMLHttpRequest> {
+    delete<TResponse>(url: string, options: OptionsWithoutMethod = {}): Promise<TResponse> {
+        return this.request<TResponse>(`${this.apiUrl}${url}`, { ...options, method: METHOD.DELETE });
+    }
+
+    async request<TResponse>(url: string, options: Options = { method: METHOD.GET }): Promise<TResponse> {
         const { method, data } = options;
 
-        return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.open(method, url);
-
-            xhr.onload = () => {
-                resolve(xhr);
-            };
-
-            xhr.onabort = reject;
-            xhr.onerror = reject;
-            xhr.ontimeout = reject;
-
-            if (method === METHOD.GET || !data) {
-                xhr.send();
-            } else {
-                xhr.send(data as Document | XMLHttpRequestBodyInit | null | undefined);
-            }
+        const response = await fetch(url, {
+            method,
+            credentials: 'include',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: data ? JSON.stringify(data) : null,
         });
+
+        const isJson = response.headers.get('content-type')?.includes('application/json');
+        const resultData = await isJson ? response.json() : null;
+
+        return resultData as unknown as TResponse;
     }
 }

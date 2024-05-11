@@ -1,8 +1,11 @@
 import { Form, FormLogin } from "../../components";
 import Block from "../../core/Block";
+import { createUser, login } from "../../services/auth";
+import { LoginRequestData } from "../../types";
+import { connect } from "../../utils/connect";
 import { getInputesValue } from "../../utils/submit";
 
-export default class LoginPage extends Block {
+class LoginPage extends Block {
     init() {
         const onSubmitBind = this.onSubmit.bind(this);
 
@@ -21,10 +24,11 @@ export default class LoginPage extends Block {
 
     onSubmit(e: Event) {
         e.preventDefault();
-        const values = getInputesValue(this.children.FormLogin.children.formBody as FormLogin, e);
+        const values = getInputesValue(this.children.FormLogin.children.formBody as FormLogin, e) as LoginRequestData;
 
         if (values) {
             console.log(values);
+            login(values);
             return true;
         }
 
@@ -39,3 +43,7 @@ export default class LoginPage extends Block {
         `;
     }
 }
+
+const mapStateToPropsShort = ({ loginField, isLoading, loginError }) => ({ loginField, isLoading, loginError });
+
+export default connect(mapStateToPropsShort)(LoginPage);

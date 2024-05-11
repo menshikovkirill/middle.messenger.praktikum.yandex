@@ -35,8 +35,15 @@ export default class FormLogin extends FormBlock {
                 label: "Нет аккаунта?",
                 type: "link",
                 asLink: true,
+                events: {
+                    click: () => this.goToRegistration(),
+                },
             }),
         };
+    }
+
+    goToRegistration() {
+        window.router.go('/registration');
     }
 
     onCheck() {

@@ -2,7 +2,7 @@ import FormBlock from "../../core/Form";
 import { Button } from "../button";
 import { Input } from "../input";
 
-export default class FormLogin extends FormBlock {
+export default class FormRegistration extends FormBlock {
     init() {
         const onLoginBind = this.onLogin.bind(this);
         const onPasswordBind = this.onPassword.bind(this);

@@ -1,13 +1,15 @@
 import { Form, FormRegistration } from "../../components";
 import Block from "../../core/Block";
-import { createUser } from "../../services/auth";
-import { CreateUser } from "../../types";
+import { checkAuthForLogin, createUser } from "../../services/auth";
+import { CreateUser, StoreType } from "../../types";
 import { connect } from "../../utils/connect";
 import { getInputesValue } from "../../utils/submit";
 
 class RegistrationPage extends Block {
     init() {
         const onSubmitBind = this.onSubmit.bind(this);
+
+        checkAuthForLogin();
 
         this.children = {
             ...this.children,
@@ -45,6 +47,6 @@ class RegistrationPage extends Block {
     }
 }
 
-const mapStateToPropsShort = ({ isLoading }) => ({ isLoading });
+const mapStateToPropsShort = ({ isLoading }: StoreType) => ({ isLoading });
 
 export default connect(mapStateToPropsShort)(RegistrationPage);

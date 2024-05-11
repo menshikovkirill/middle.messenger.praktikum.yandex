@@ -8,6 +8,7 @@ import Block from "../../core/Block";
 import { Props as PopupProps } from '../../components/popup/popup';
 import { ChatUsersForm } from "../../components/chat-users-form";
 import { getInputesValue } from "../../utils/submit";
+import { checkAuthForChat } from "../../services/auth";
 
 type ChatsListProps = {
     id: string,
@@ -44,10 +45,12 @@ export default class ChatPage extends Block<Props> {
         const onSubmitAddUserBind = this.onSubmitAddUser.bind(this);
         const onSubmitRemoveUserBind = this.onSubmitRemoveUser.bind(this);
 
+        checkAuthForChat();
+
         this.children = {
             ...this.children,
             ChatList: new ChatList({
-                chatsList: this.props.chatsList,
+                chatsList: this.props.chatsList || [],
                 onClick: onMessageClickBind,
                 activeId: this.messageId,
             }) as Block<unknown>,

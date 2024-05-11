@@ -10,7 +10,7 @@ export const createUser = async (model: CreateUser) => {
         await authApi.create(model);
         window.router.go('/chat');
     } catch (error) {
-        window.store.set({ loginError: 'some error' });
+        window.store.set({ loginError: 'error' });
     } finally {
         window.store.set({ isLoading: false });
     }
@@ -23,8 +23,60 @@ export const login = async (model: LoginRequestData) => {
         await authApi.login(model);
         window.router.go('/chat');
     } catch (error) {
-        window.store.set({ loginError: 'some error' });
+        window.store.set({ loginError: 'error' });
     } finally {
         window.store.set({ isLoading: false });
+    }
+};
+
+export const getUserData = async () => {
+    window.store.set({ userData: {} });
+    window.store.set({ isLoading: true });
+
+    try {
+        const userData = await authApi.me();
+        if (userData) {
+            window.store.set({ userData });
+        }
+    } catch (error) {
+        window.store.set({ loginError: 'error' });
+    } finally {
+        window.store.set({ isLoading: false });
+    }
+};
+
+export const logOut = async () => {
+    window.store.set({ isLoading: true });
+    window.store.set({ userData: {} });
+
+    try {
+        await authApi.logout();
+        window.router.go('/login');
+    } catch (error) {
+        window.store.set({ loginError: 'error' });
+    } finally {
+        window.store.set({ isLoading: false });
+    }
+};
+
+export const checkAuthForChat = async () => {
+    try {
+        const userData = await authApi.me();
+        if ('reason' in userData) {
+            window.router.go('/login');
+        }
+    } catch (error) {
+        window.store.set({ loginError: 'error' });
+    }
+};
+
+export const checkAuthForLogin = async () => {
+    try {
+        const userData = await authApi.me();
+        if (!('reason' in userData)) {
+            window.router.go('/chat');
+        }
+    } catch (error) {
+        window.store.set({ loginError: 'error' });
     }
 };

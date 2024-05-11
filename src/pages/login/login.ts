@@ -1,13 +1,15 @@
 import { Form, FormLogin } from "../../components";
 import Block from "../../core/Block";
-import { createUser, login } from "../../services/auth";
-import { LoginRequestData } from "../../types";
+import { checkAuthForLogin, login } from "../../services/auth";
+import { LoginRequestData, StoreType } from "../../types";
 import { connect } from "../../utils/connect";
 import { getInputesValue } from "../../utils/submit";
 
 class LoginPage extends Block {
     init() {
         const onSubmitBind = this.onSubmit.bind(this);
+
+        checkAuthForLogin();
 
         this.children = {
             ...this.children,
@@ -27,7 +29,6 @@ class LoginPage extends Block {
         const values = getInputesValue(this.children.FormLogin.children.formBody as FormLogin, e) as LoginRequestData;
 
         if (values) {
-            console.log(values);
             login(values);
             return true;
         }
@@ -44,6 +45,6 @@ class LoginPage extends Block {
     }
 }
 
-const mapStateToPropsShort = ({ loginField, isLoading, loginError }) => ({ loginField, isLoading, loginError });
+const mapStateToPropsShort = ({ isLoading, loginError } : StoreType) => ({ isLoading, loginError });
 
 export default connect(mapStateToPropsShort)(LoginPage);

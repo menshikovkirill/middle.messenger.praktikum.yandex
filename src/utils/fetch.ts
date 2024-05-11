@@ -9,6 +9,7 @@ enum METHOD {
 type Options = {
     method: METHOD;
     data?: unknown;
+    asFile?: boolean;
 };
 
 // Тип Omit принимает два аргумента: первый — тип, второй — строка
@@ -41,14 +42,16 @@ export class HTTPTransport {
     }
 
     async request<TResponse>(url: string, options: Options = { method: METHOD.GET }): Promise<TResponse> {
-        const { method, data } = options;
+        const { method, data, asFile } = options;
+
+        const dataPrepared = (!asFile && data ? JSON.stringify(data) : data) as BodyInit;
 
         const response = await fetch(url, {
             method,
             credentials: 'include',
             mode: 'cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: data ? JSON.stringify(data) : null,
+            headers: !asFile ? { 'Content-Type': 'application/json' } : undefined,
+            body: dataPrepared,
         });
 
         const isJson = response.headers.get('content-type')?.includes('application/json');

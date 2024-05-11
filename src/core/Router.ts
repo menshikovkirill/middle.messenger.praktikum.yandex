@@ -30,7 +30,7 @@ class Router {
     }
 
     use(pathname: string, block: unknown) {
-        const route = new Route(pathname, block as Block, { rootQuery: this._rootQuery });
+        const route = new Route(pathname, block as typeof Block, { rootQuery: this._rootQuery });
         this.routes.push(route);
         return this;
     }
@@ -38,7 +38,7 @@ class Router {
     start() {
         window.onpopstate = ((event: Event) => {
             this._onRoute(event.currentTarget?.location.pathname);
-        }).bind(this);
+        });
         this._onRoute(window.location.pathname);
     }
 
@@ -55,7 +55,7 @@ class Router {
 
         this._currentRoute = route;
         if (route !== null) {
-          route.render(route, pathname);
+            route.render();
         }
     }
 

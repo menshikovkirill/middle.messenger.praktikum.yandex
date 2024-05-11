@@ -17,8 +17,24 @@ export type UserDTO = {
     email: string;
 };
 
+export type ProfileResponse = UserDTO & SignUpResponse;
+
 export type CreateUser = Omit<UserDTO, 'avatar' | 'display_name' | 'id'> & {
     password: string
+}
+
+export type UserProfile = {
+    first_name: string;
+    second_name: string;
+    display_name: string;
+    login: string;
+    email: string;
+    phone: string;
+}
+
+export type UserPassword = {
+    oldPassword: string;
+    newPassword: string;
 }
 
 export type CreateChat = {
@@ -43,3 +59,9 @@ export type ChatDTO = {
     unread_count: number,
     last_message: LastMessage | null
 }
+
+export type StoreType = {
+    isLoading?: boolean,
+    loginError?: boolean | null,
+    userData?: UserDTO | null;
+};

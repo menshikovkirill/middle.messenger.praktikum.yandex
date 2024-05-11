@@ -5,7 +5,7 @@ export default class ProfileImage extends Block {
         return (
             `
                 <div class="profile-image">
-                    <img src="{{profileImage}}" alt="Изображение" />
+                    <img src="https://ya-praktikum.tech/api/v2/resources/{{profileImage}}" alt="Изображение" />
                     <div class="text">Поменять аватар</div>
                 </div>
             `

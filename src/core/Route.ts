@@ -5,13 +5,13 @@ type Props = { rootQuery?: string | null; }
 class Route {
     private _pathname: string;
 
-    private readonly _blockClass: Block;
+    private readonly _blockClass: typeof Block;
 
     private readonly _props: Props;
 
     private _block: Block | null;
 
-    constructor(pathname: string, view: Block, props: Props) {
+    constructor(pathname: string, view: typeof Block, props: Props) {
         this._pathname = pathname;
         this._blockClass = view;
         this._block = null;
@@ -44,7 +44,7 @@ class Route {
 
     render() {
         if (!this._block) {
-            this._block = new this._blockClass({});
+            this._block = new this._blockClass({}) as Block<unknown>;
             this._renderDom(this._props.rootQuery || '', this._block);
             return;
         }

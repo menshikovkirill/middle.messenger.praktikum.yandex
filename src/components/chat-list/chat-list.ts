@@ -61,7 +61,7 @@ export default class ChatList extends Block<Props> {
         return `
             <div class="chat-list">
                 <div class="profile-link">
-                    <a href="#">Профиль ></a>
+                    <a href="profile">Профиль ></a>
                 </div>
                 <form class="search">
                     <input name="search" placeholder="Поиск" />

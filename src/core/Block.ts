@@ -235,10 +235,10 @@ export default class Block<T = unknown> {
         return document.createElement(tagName);
     }
 
-    show() {
+    show(style?: string) {
         const elem = this.getContent();
         if (elem) {
-            elem.style.display = 'block';
+            elem.style.display = style ?? 'block';
         }
     }
 

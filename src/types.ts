@@ -64,4 +64,5 @@ export type StoreType = {
     isLoading?: boolean,
     loginError?: boolean | null,
     userData?: UserDTO | null;
+    chatsList?: ChatDTO;
 };

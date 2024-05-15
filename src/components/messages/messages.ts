@@ -62,7 +62,6 @@ export default class Messages extends Block<Props> {
         const values = getInputesValue(this.children.FormChat as FormChat, e);
 
         if (values) {
-            console.log(values);
             return true;
         }
 

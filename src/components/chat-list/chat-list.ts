@@ -1,5 +1,10 @@
 import Block from "../../core/Block";
+import { getChatsList } from "../../services/chat";
+import { StoreType } from "../../types";
+import { connect } from "../../utils/connect";
+import { Button } from "../button";
 import { Message } from "../message";
+import { UsersButton } from "../users-button";
 
 type ChatsListProps = {
     id: string,
@@ -13,31 +18,30 @@ type Props = {
     onClick?: (id:string) => void;
     inputComponentKeys?: string[],
     activeId?: string | null,
+    clickAddChat?: (e: Event) => void;
+    clickRemoveChat?: (e: Event) => void;
+    AddChatsButton?: Block;
+    RemoveChatsButton?: Block;
 };
 
-export default class ChatList extends Block<Props> {
+class ChatList extends Block<Props> {
     choosedElem: Block<unknown> | undefined;
 
     constructor(props: Props) {
-        const dialogsComponents = Object.values(props.chatsList).reduce((acc: Record<string, Message>, data) => {
-            const component = new Message({
-                name: data.name,
-                id: data.id,
-                message: data.message,
-                events: {
-                    click: () => { props?.onClick?.(data.id); this.onMessageClick(data.id); },
-                },
-                active: props.activeId === data.id,
-            });
-
-            acc[component._id] = component;
-            return acc;
-        }, {});
-
         super({
             ...props,
-            inputComponentKeys: Object.keys(dialogsComponents),
-            ...dialogsComponents,
+            AddChatsButton: new UsersButton({
+                text: '+',
+                events: {
+                    click: props.clickAddChat,
+                },
+            }),
+            RemoveChatsButton: new UsersButton({
+                text: '-',
+                events: {
+                    click: props.clickRemoveChat,
+                },
+            }),
         });
     }
 
@@ -61,15 +65,21 @@ export default class ChatList extends Block<Props> {
         return `
             <div class="chat-list">
                 <div class="profile-link">
+                    <div class="buttons">{{{ AddChatsButton }}} {{{ RemoveChatsButton }}} </div>
                     <a href="profile">Профиль ></a>
+                    {{{B}}}
                 </div>
                 <form class="search">
                     <input name="search" placeholder="Поиск" />
                 </form>
                 <div>
-                    ${this.props?.inputComponentKeys?.map((key) => `{{{ ${key} }}}`).join('')}
+                    <div>{{{ chatsList }}}</div>
                 </div>
+                <div>{{{cards}}}</div>
             </div>
         `;
     }
 }
+const mapStateToPropsShort = ({ chatsList, loginError } : StoreType) => ({ chatsList, loginError });
+
+export default connect(mapStateToPropsShort)(ChatList);

@@ -19,3 +19,4 @@ export { Messages } from './messages';
 export { ChatMessage } from './chat-message';
 export { FormChat } from './form-chat';
 export { UsersButton } from './users-button';
+export { UsersList } from './users-list';

@@ -11,16 +11,14 @@ import { getInputesValue } from "../../utils/submit";
 import { checkAuthForChat } from "../../services/auth";
 import { togglePopup } from "../../utils/popup";
 import { ChatAddItemForm } from "../../components/chat-add-form";
-import { createChat, getChatsList } from "../../services/chat";
+import {
+    createChat,
+    getChatsList,
+    removeChat,
+    setActiveChat,
+} from "../../services/chat";
 import { connect } from "../../utils/connect";
-import { StoreType } from "../../types";
-
-type ChatsListProps = {
-    id: string,
-    name: string,
-    image: string,
-    message: string,
-}
+import { ChatDTO, StoreType } from "../../types";
 
 export type DialogDataMeesage = Array<{
     message: string; my: boolean;
@@ -34,14 +32,15 @@ export interface DialogData {
 }
 
 type Props = {
-    activeId: string | null;
-    chatsList: Array<ChatsListProps>;
+    activeId: number | null;
+    chatsList: Array<ChatDTO>;
+    usersTitle: string;
     dialogData: DialogData;
     click: (e: Event) => void;
 };
 
 class ChatPage extends Block<Props> {
-    messageId?: string;
+    messageId?: number;
 
     componentDidMount() {
         checkAuthForChat();
@@ -53,9 +52,8 @@ class ChatPage extends Block<Props> {
         const onPopupAddUserToggleBind = this.onPopupAddUserToggle.bind(this);
         const onPopupRemoveUserToggleBind = this.onPopupRemoveUserToggle.bind(this);
         const onPopupAddChatToggleBind = this.onPopupAddChatToggle.bind(this);
-        const onPopupRemoveChatToggleBind = this.onPopupRemoveChatToggle.bind(this);
+        const onPopupRemoveChatToggleBind = this.onRemoveChat.bind(this);
         const onSubmitAddChatToggleBind = this.onSubmitAddChat.bind(this);
-        const onSubmitRemoveChatToggleBind = this.onSubmitRemoveChat.bind(this);
         const onSubmitAddUserBind = this.onSubmitAddUser.bind(this);
         const onSubmitRemoveUserBind = this.onSubmitRemoveUser.bind(this);
 
@@ -69,9 +67,11 @@ class ChatPage extends Block<Props> {
             }) as unknown as Block<unknown>,
             Dialog: new Dialog({
                 messageId: this.messageId,
+                chat: null,
                 clickAddUser: onPopupAddUserToggleBind,
                 clickRemoveUser: onPopupRemoveUserToggleBind,
-            }) as Block<unknown>,
+                clickRemoveChat: onPopupRemoveChatToggleBind,
+            }) as unknown as Block<unknown>,
             PopupAddUser: new Popup({
                 type: '',
                 popupBody: new Form({
@@ -111,28 +111,14 @@ class ChatPage extends Block<Props> {
                 }),
                 click: onPopupAddChatToggleBind,
             }) as Block<unknown>,
-            PopupRemoveChat: new Popup({
-                type: '',
-                popupBody: new Form({
-                    title: "Удалить новый чат",
-                    formBody: new ChatAddItemForm({
-                        buttonText: "Удалить",
-                    }),
-                    events: {
-                        submit: onSubmitRemoveChatToggleBind,
-                    },
-                }),
-                click: onPopupRemoveChatToggleBind,
-            }) as Block<unknown>,
         };
     }
 
     componentDidUpdate(oldProps: Props, newProps: Props) {
         if (oldProps !== newProps) {
-            console.log('fefe', newProps);
             this.children.ChatList.setProps({
                 ...newProps,
-                chatsList: this.toList(newProps.chatsList, newProps.activeId),
+                chatsList: this.chatsListToMapComponents(newProps.chatsList, newProps.activeId),
             });
 
             return true;
@@ -141,7 +127,7 @@ class ChatPage extends Block<Props> {
         return false;
     }
 
-    toList(list, activeId) {
+    chatsListToMapComponents(list: Array<ChatDTO>, activeId: number | null) {
         return list.map(({ id, title, last_message }) => new Message({
             name: title,
             message: last_message,
@@ -152,19 +138,26 @@ class ChatPage extends Block<Props> {
         }));
     }
 
-    onMessageClick(id: string) {
-        this.messageId = id;
+    onMessageClick(id: number) {
+        if (id !== this.messageId) {
+            this.messageId = id;
 
-        this.setProps({
-            ...this.props,
-            activeId: id,
-        });
+            this.setProps({
+                ...this.props,
+                activeId: id,
+            });
 
-        this.children.Dialog.setProps({
-            messageId: id,
-            name: this.props.dialogData?.[id].name,
-            data: this.props.dialogData?.[id],
-        });
+            const chat = this.props.chatsList.filter((chat) => chat.id === id)[0];
+
+            setActiveChat(chat, { chatId: String(id) });
+
+            const title = `${chat?.title} - ${this.props.usersTitle}`;
+            this.children.Dialog.setProps({
+                messageId: this.messageId,
+                chat,
+                title,
+            });
+        }
     }
 
     onPopupAddUserToggle(e: Event) {
@@ -179,8 +172,16 @@ class ChatPage extends Block<Props> {
         togglePopup(this.children.PopupAddChat, e);
     }
 
-    onPopupRemoveChatToggle(e: Event) {
-        togglePopup(this.children.PopupRemoveChat, e);
+    onRemoveChat() {
+        if (this.messageId) {
+            removeChat({ chatId: String(this.messageId) });
+
+            this.messageId = undefined;
+
+            this.children.Dialog.setProps({
+                messageId: null,
+            });
+        }
     }
 
     onSubmitAddUser(e: Event) {
@@ -215,22 +216,6 @@ class ChatPage extends Block<Props> {
         return false;
     }
 
-    onSubmitRemoveChat(e: Event) {
-        e.preventDefault();
-
-        const values = getInputesValue(
-            this.children.PopupRemoveChat.children.popupBody.children.formBody as ChatAddItemForm,
-            e,
-        );
-
-        if (values) {
-            console.log(values);
-            return true;
-        }
-
-        return false;
-    }
-
     onSubmitRemoveUser(e: Event) {
         e.preventDefault();
 
@@ -254,7 +239,6 @@ class ChatPage extends Block<Props> {
                     {{{ ChatList }}}
                     {{{ Dialog }}}
                     {{{ PopupAddChat }}}
-                    {{{ PopupRemoveChat }}}
                     {{{ PopupAddUser }}}
                     {{{ PopupRemoveUser }}}
                 </div>
@@ -263,6 +247,10 @@ class ChatPage extends Block<Props> {
     }
 }
 
-const mapStateToPropsShort = ({ chatsList, loginError } : StoreType) => ({ chatsList, loginError });
+const mapStateToPropsShort = ({
+    chatsList,
+    loginError,
+    usersTitle,
+} : StoreType) => ({ chatsList, loginError, usersTitle });
 
 export default connect(mapStateToPropsShort)(ChatPage);

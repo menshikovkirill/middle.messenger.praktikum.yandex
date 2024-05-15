@@ -7,4 +7,10 @@
     width: 30px;
     height: 30px;
     border-radius: 15px;
+    cursor: pointer;
+
+    &.user-button-as-text {
+        width: fit-content;
+        height: none;
+    }
 }

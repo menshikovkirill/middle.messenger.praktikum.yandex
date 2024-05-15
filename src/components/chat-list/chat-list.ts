@@ -1,9 +1,6 @@
 import Block from "../../core/Block";
-import { getChatsList } from "../../services/chat";
 import { StoreType } from "../../types";
 import { connect } from "../../utils/connect";
-import { Button } from "../button";
-import { Message } from "../message";
 import { UsersButton } from "../users-button";
 
 type ChatsListProps = {
@@ -36,12 +33,6 @@ class ChatList extends Block<Props> {
                     click: props.clickAddChat,
                 },
             }),
-            RemoveChatsButton: new UsersButton({
-                text: '-',
-                events: {
-                    click: props.clickRemoveChat,
-                },
-            }),
         });
     }
 
@@ -65,7 +56,7 @@ class ChatList extends Block<Props> {
         return `
             <div class="chat-list">
                 <div class="profile-link">
-                    <div class="buttons">{{{ AddChatsButton }}} {{{ RemoveChatsButton }}} </div>
+                    <div class="buttons">{{{ AddChatsButton }}}</div>
                     <a href="profile">Профиль ></a>
                     {{{B}}}
                 </div>

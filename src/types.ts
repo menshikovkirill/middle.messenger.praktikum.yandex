@@ -52,6 +52,10 @@ type LastMessage = {
     content: string
 }
 
+export type ChatId = {
+    chatId: string;
+}
+
 export type ChatDTO = {
     id: number,
     title: string,
@@ -64,5 +68,7 @@ export type StoreType = {
     isLoading?: boolean,
     loginError?: boolean | null,
     userData?: UserDTO | null;
-    chatsList?: ChatDTO;
+    chatsList?: Array<ChatDTO>;
+    activeChat: ChatDTO;
+    usersTitle: string;
 };

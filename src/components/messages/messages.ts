@@ -14,6 +14,7 @@ type Props = {
     }
     clickAddUser: (e: Event) => void;
     clickRemoveUser: (e: Event) => void;
+    clickRemoveChat: (e: Event) => void;
 }
 
 export default class Messages extends Block<Props> {
@@ -40,6 +41,13 @@ export default class Messages extends Block<Props> {
                 text: '-',
                 events: {
                     click: this.props.clickRemoveUser,
+                },
+            }),
+            RemoveChatsButton: new UsersButton({
+                text: 'Удалить чат',
+                asText: true,
+                events: {
+                    click: this.props.clickRemoveChat,
                 },
             }),
         };
@@ -77,6 +85,7 @@ export default class Messages extends Block<Props> {
                     <div class="users-button-content">
                         <div>{{{AddUsersButton}}}</div>
                         <div>{{{RemoveUsersButton}}}</div>
+                        <div>{{{RemoveChatsButton}}}</div>
                     </div>
                 </div>
                 <div class="content">

@@ -5,7 +5,7 @@ export default class PageProfile extends Block {
         return `
             <div class="profile">
                 <div class="profile-back-button-content">
-                    <a href="/chat"></a>
+                    <a href="/messenger"></a>
                 </div>
                 <div class="profile-content">
                     {{{ ProfileImage }}}

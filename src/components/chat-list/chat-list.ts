@@ -63,7 +63,7 @@ class ChatList extends Block<Props> {
             <div class="chat-list">
                 <div class="profile-link">
                     <div class="buttons">{{{ AddChatsButton }}}</div>
-                    <a href="profile">Профиль ></a>
+                    <a href="settings">Профиль ></a>
                     {{{B}}}
                 </div>
                 <form class="search">

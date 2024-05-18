@@ -76,7 +76,7 @@ export const checkAuthForLogin = async () => {
     try {
         const userData = await authApi.me();
         if (!('reason' in userData)) {
-            window.router.go('/chat');
+            window.router.go('/messenger');
         }
     } catch (error) {
         window.store.set({ loginError: 'error' });

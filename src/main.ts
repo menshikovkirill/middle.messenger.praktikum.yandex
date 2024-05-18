@@ -22,10 +22,9 @@ window.store = new Store({
 const router = new Router('#app');
 window.router = router;
 
-router.use('/sign-up', Pages.LoginPage)
-.use('/registration', Pages.RegistrationPage)
-.use('/profile', Pages.Profile)
-.use('/chat', Pages.ChatPage)
-.use('/', Pages.ChatPage)
+router.use('/', Pages.LoginPage)
+.use('/sign-up', Pages.RegistrationPage)
+.use('/settings', Pages.Profile)
+.use('/messenger', Pages.ChatPage)
 .use('/', Pages.NotFound)
 .start();

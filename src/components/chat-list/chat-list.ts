@@ -1,5 +1,6 @@
 import Block from "../../core/Block";
-import { StoreType } from "../../types";
+import { getChatsList } from "../../services/chat";
+import { StoreType, UserDTO } from "../../types";
 import { connect } from "../../utils/connect";
 import { UsersButton } from "../users-button";
 
@@ -11,6 +12,7 @@ type ChatsListProps = {
 };
 
 type Props = {
+    userData: UserDTO;
     chatsList: Array<ChatsListProps>;
     onClick?: (id:string) => void;
     inputComponentKeys?: string[],
@@ -24,16 +26,20 @@ type Props = {
 class ChatList extends Block<Props> {
     choosedElem: Block<unknown> | undefined;
 
-    constructor(props: Props) {
-        super({
-            ...props,
+    componentDidMount(): void {
+        getChatsList();
+    }
+
+    init() {
+        this.children = {
+            ...this.children,
             AddChatsButton: new UsersButton({
                 text: '+',
                 events: {
-                    click: props.clickAddChat,
+                    click: this.props.clickAddChat,
                 },
             }),
-        });
+        };
     }
 
     onMessageClick(id: string) {

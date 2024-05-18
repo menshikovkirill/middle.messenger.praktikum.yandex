@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StoreEvents } from "../core/Store";
 import isEqual from './isEqual';
 
@@ -9,7 +10,7 @@ export function connect(mapStateToProps: any, dispatch?: Array<(args: any) => vo
         private onChangeStoreCallback: () => void;
 
         constructor(props: any) {
-            const store = window.store;
+            const { store } = window;
             // сохраняем начальное состояние
             let state = mapStateToProps(store.getState());
 

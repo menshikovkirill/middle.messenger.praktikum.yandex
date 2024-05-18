@@ -51,7 +51,7 @@ export const logOut = async () => {
 
     try {
         await authApi.logout();
-        window.router.go('/login');
+        window.router.go('/sign-up');
     } catch (error) {
         window.store.set({ loginError: 'error' });
     } finally {
@@ -63,7 +63,9 @@ export const checkAuthForChat = async () => {
     try {
         const userData = await authApi.me();
         if ('reason' in userData) {
-            window.router.go('/login');
+            window.router.go('/sign-up');
+        } else {
+            window.store.set({ userData });
         }
     } catch (error) {
         window.store.set({ loginError: 'error' });

@@ -12,39 +12,36 @@ import { checkAuthForChat } from "../../services/auth";
 import { togglePopup } from "../../utils/popup";
 import { ChatAddItemForm } from "../../components/chat-add-form";
 import {
+    addNewUser,
     createChat,
-    getChatsList,
     removeChat,
+    removeUser,
     setActiveChat,
 } from "../../services/chat";
 import { connect } from "../../utils/connect";
-import { ChatDTO, StoreType } from "../../types";
-
-export type DialogDataMeesage = Array<{
-    message: string; my: boolean;
-}>
-
-export interface DialogData {
-    [key: string]: {
-        name: string;
-        messages: DialogDataMeesage;
-    };
-}
+import {
+    ChatDTO,
+    Login,
+    StoreType,
+    UserDTO,
+} from "../../types";
 
 type Props = {
     activeId: number | null;
     chatsList: Array<ChatDTO>;
     usersTitle: string;
-    dialogData: DialogData;
     click: (e: Event) => void;
+    userData: UserDTO;
+    socket?: WebSocket;
 };
 
 class ChatPage extends Block<Props> {
     messageId?: number;
 
+    chats: Array<number> = [];
+
     componentDidMount() {
         checkAuthForChat();
-        getChatsList();
     }
 
     init() {
@@ -116,12 +113,14 @@ class ChatPage extends Block<Props> {
 
     componentDidUpdate(oldProps: Props, newProps: Props) {
         if (oldProps !== newProps) {
-            this.children.ChatList.setProps({
-                ...newProps,
-                chatsList: this.chatsListToMapComponents(newProps.chatsList, newProps.activeId),
-            });
+            if (newProps.chatsList?.length) {
+                this.children.ChatList.setProps({
+                    ...newProps,
+                    chatsList: this.chatsListToMapComponents(newProps.chatsList, newProps.activeId),
+                });
 
-            return true;
+                return true;
+            }
         }
 
         return false;
@@ -130,7 +129,7 @@ class ChatPage extends Block<Props> {
     chatsListToMapComponents(list: Array<ChatDTO>, activeId: number | null) {
         return list.map(({ id, title, last_message }) => new Message({
             name: title,
-            message: last_message,
+            message: last_message?.content,
             events: {
                 click: () => { this.onMessageClick?.(id); },
             },
@@ -149,14 +148,12 @@ class ChatPage extends Block<Props> {
 
             const chat = this.props.chatsList.filter((chat) => chat.id === id)[0];
 
-            setActiveChat(chat, { chatId: String(id) });
-
-            const title = `${chat?.title} - ${this.props.usersTitle}`;
-            this.children.Dialog.setProps({
-                messageId: this.messageId,
+            setActiveChat(
                 chat,
-                title,
-            });
+                { chatId: String(id) },
+                this.props.userData,
+                this.props.socket,
+            );
         }
     }
 
@@ -190,9 +187,10 @@ class ChatPage extends Block<Props> {
         const values = getInputesValue(
             this.children.PopupAddUser.children.popupBody.children.formBody as ChatUsersForm,
             e,
-        );
+        ) as Login;
 
-        if (values) {
+        if (values && this.messageId) {
+            addNewUser(values, this.messageId);
             return true;
         }
 
@@ -209,7 +207,6 @@ class ChatPage extends Block<Props> {
 
         if (values) {
             createChat({ title: values.name });
-            getChatsList();
             return true;
         }
 
@@ -222,10 +219,10 @@ class ChatPage extends Block<Props> {
         const values = getInputesValue(
             this.children.PopupRemoveUser.children.popupBody.children.formBody as ChatUsersForm,
             e,
-        );
+        ) as Login;
 
-        if (values) {
-            console.log(values);
+        if (values && this.messageId) {
+            removeUser(values, this.messageId);
             return true;
         }
 
@@ -249,8 +246,14 @@ class ChatPage extends Block<Props> {
 
 const mapStateToPropsShort = ({
     chatsList,
+    userData,
     loginError,
-    usersTitle,
-} : StoreType) => ({ chatsList, loginError, usersTitle });
+    socket,
+} : StoreType) => ({
+    userData,
+    chatsList,
+    loginError,
+    socket,
+});
 
 export default connect(mapStateToPropsShort)(ChatPage);

@@ -1,5 +1,7 @@
 import {
+    Login,
     ProfileResponse,
+    UserDTO,
     UserPassword,
     UserProfile,
 } from "../types";
@@ -18,5 +20,9 @@ export default class UserApi {
 
     async password(data: UserPassword) {
         return authApi.put('/password', { data });
+    }
+
+    async search(data: Login) : Promise<Array<UserDTO>> {
+        return authApi.post('/search', { data });
     }
 }

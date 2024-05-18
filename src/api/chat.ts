@@ -2,6 +2,9 @@ import {
     CreateChat,
     ChatId,
     UserDTO,
+    NewUsers,
+    Token,
+    ChatDTO,
 } from "../types";
 import { HTTPTransport } from "../utils/fetch";
 
@@ -12,7 +15,7 @@ export default class ChatApi {
         return chatApi.post('', { data });
     }
 
-    async chatsList() {
+    async chatsList() : Promise<Array<ChatDTO>> {
         return chatApi.get('');
     }
 
@@ -22,5 +25,17 @@ export default class ChatApi {
 
     async users(id: ChatId) : Promise<Array<UserDTO>> {
         return chatApi.get(`/${id.chatId}/users`);
+    }
+
+    async addUsers(data: NewUsers): Promise<UserDTO> {
+        return chatApi.put(`/users`, { data });
+    }
+
+    async removerUsers(data: NewUsers): Promise<UserDTO> {
+        return chatApi.delete(`/users`, { data });
+    }
+
+    async token(data: ChatId): Promise<Token> {
+        return chatApi.post(`/token/${data.chatId}`, { data });
     }
 }

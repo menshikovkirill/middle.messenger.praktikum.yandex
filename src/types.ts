@@ -93,6 +93,11 @@ export type UsersList = {
     [key: number]: string;
 }
 
+export type UpdateChatAvatart = {
+    avatar: FormData;
+    chatId: FormData;
+}
+
 export type StoreType = {
     isLoading?: boolean,
     loginError?: boolean | null,

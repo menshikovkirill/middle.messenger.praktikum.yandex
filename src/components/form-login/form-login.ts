@@ -43,7 +43,7 @@ export default class FormLogin extends FormBlock {
     }
 
     goToRegistration() {
-        window.router.go('/registration');
+        window.router.go('/sign-up');
     }
 
     onCheck() {

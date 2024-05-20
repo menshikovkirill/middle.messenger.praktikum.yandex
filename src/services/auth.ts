@@ -8,7 +8,7 @@ export const createUser = async (model: CreateUser) => {
 
     try {
         await authApi.create(model);
-        window.router.go('/chat');
+        window.router.go('/messenger');
     } catch (error) {
         window.store.set({ loginError: 'error' });
     } finally {
@@ -21,7 +21,7 @@ export const login = async (model: LoginRequestData) => {
 
     try {
         await authApi.login(model);
-        window.router.go('/chat');
+        window.router.go('/messenger');
     } catch (error) {
         window.store.set({ loginError: 'error' });
     } finally {

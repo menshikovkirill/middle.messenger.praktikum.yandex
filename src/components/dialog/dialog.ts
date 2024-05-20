@@ -14,6 +14,7 @@ import {
 import { connect } from "../../utils/connect";
 import { UsersList } from "../users-list";
 import { ChatMessage } from "../chat-message";
+import { ProfileImage } from "../profile-image";
 
 type Props = {
     messageId?: number | null;
@@ -26,6 +27,7 @@ type Props = {
     clickAddUser: (e: Event) => void;
     clickRemoveUser: (e: Event) => void;
     clickRemoveChat: (e: Event) => void;
+    clickAddImage: (e: Event) => void;
 };
 
 class Dialog extends Block<Props> {
@@ -37,6 +39,14 @@ class Dialog extends Block<Props> {
             ...this.children,
             UsersList: new UsersList({
                 title: '',
+            }) as Block<unknown>,
+            ProfileImage: new ProfileImage({
+                profileImage: this.props.userData.avatar,
+                chat: true,
+                onPopupToggle: this.props.clickAddImage,
+                events: {
+                    click: this.props.clickAddImage,
+                },
             }) as Block<unknown>,
             ChatMessagesList: new ChatMessagesList({
                 data: [],
@@ -69,6 +79,13 @@ class Dialog extends Block<Props> {
     }
 
     componentDidUpdate(oldProps: Props, newProps: Props) {
+        if (oldProps.activeChat?.avatar !== newProps.activeChat?.avatar) {
+            this.children.ProfileImage.setProps({
+                profileImage: newProps.activeChat?.avatar,
+                defaultImg,
+            });
+        }
+
         if (oldProps.usersTitle !== newProps.usersTitle || oldProps.token !== newProps.token) {
             this.children.UsersList.setProps({
                 title: `${newProps.activeChat?.title} - ${newProps.usersTitle}`,
@@ -77,11 +94,23 @@ class Dialog extends Block<Props> {
             if (newProps.token) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 newProps.socket.addEventListener('message', (event: any) => {
-                    const message = JSON.parse(event.data) as WebSocketData;
-                    if (message.type === 'message') {
-                        this.messagesList.push(JSON.parse(event.data) as WebSocketData);
-                        this.children.ChatMessagesList.setProps({
-                            data: this.chatMessagesToMapComponents(this.messagesList),
+                    try {
+                        const message = JSON.parse(event.data) as WebSocketData | Array<WebSocketData>;
+                        if ('length' in message && message.length > 0) {
+                            this.messagesList = [...message, ...this.messagesList];
+                            this.children.ChatMessagesList.setProps({
+                                data: this.chatMessagesToMapComponents(this.messagesList),
+                            });
+                        } else if ('type' in message && message.type === 'message') {
+                            this.messagesList.push(message);
+                            this.messagesList = [message, ...this.messagesList];
+                            this.children.ChatMessagesList.setProps({
+                                data: this.chatMessagesToMapComponents(this.messagesList),
+                            });
+                        }
+                    } catch (error) {
+                        window.store.set({
+                            loginError: error,
                         });
                     }
                 });
@@ -127,7 +156,7 @@ class Dialog extends Block<Props> {
             {{#if activeChat}}<div class="dialog">
                 <div class="messages">
                     <div class="header">
-                        <img src="${defaultImg}" />
+                        {{{ProfileImage}}}
                         {{{UsersList}}}
                         <div class="users-button-content">
                             <div>{{{AddUsersButton}}}</div>

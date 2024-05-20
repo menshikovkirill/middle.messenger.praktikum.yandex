@@ -281,6 +281,7 @@ export default class FormProfile extends FormBlock<ProfileProps> {
                 {{{ Login }}}
                 {{{ FirstName }}}
                 {{{ SecondName }}}
+                {{{ DispayName }}}
                 {{{ Phone }}}
                 {{{ LastPassword }}}
                 {{{ NewPassword }}}

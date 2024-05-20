@@ -2,6 +2,7 @@ import Block from "../../core/Block";
 import { getChatsList } from "../../services/chat";
 import { StoreType, UserDTO } from "../../types";
 import { connect } from "../../utils/connect";
+import { Link } from "../link";
 import { UsersButton } from "../users-button";
 
 type ChatsListProps = {
@@ -39,6 +40,10 @@ class ChatList extends Block<Props> {
                     click: this.props.clickAddChat,
                 },
             }),
+            GoToSettings: new Link({
+                text: "Профиль >",
+                go: '/settings',
+            }) as unknown as Block<unknown>,
         };
     }
 
@@ -63,8 +68,7 @@ class ChatList extends Block<Props> {
             <div class="chat-list">
                 <div class="profile-link">
                     <div class="buttons">{{{ AddChatsButton }}}</div>
-                    <a href="settings">Профиль ></a>
-                    {{{B}}}
+                    {{{GoToSettings}}}
                 </div>
                 <form class="search">
                     <input name="search" placeholder="Поиск" />

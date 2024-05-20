@@ -38,4 +38,8 @@ export default class ChatApi {
     async token(data: ChatId): Promise<Token> {
         return chatApi.post(`/token/${data.chatId}`, { data });
     }
+
+    async avatar(data: FormData): Promise<ChatDTO> {
+        return chatApi.put('/avatar', { data, asFile: true });
+    }
 }

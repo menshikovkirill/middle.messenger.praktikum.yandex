@@ -26,5 +26,5 @@ router.use('/', Pages.LoginPage)
 .use('/sign-up', Pages.RegistrationPage)
 .use('/settings', Pages.Profile)
 .use('/messenger', Pages.ChatPage)
-.use('/', Pages.NotFound)
+.use('*', Pages.NotFound)
 .start();

@@ -67,7 +67,12 @@ export const setActiveChat = async (model: ChatDTO, id: ChatId, userData: UserDT
         const usersTitle = formateUsersTitle(users);
 
         const socketEvent = new WebSocket(`${SOCKET_URL}${userData.id}/${id.chatId}/${token.token}`);
-
+        socketEvent.addEventListener('open', () => {
+            socketEvent.send(JSON.stringify({
+                content: '0',
+                type: 'get old',
+            }));
+        });
         const usersList = formateUsersList(users);
 
         window.store.set({
@@ -121,6 +126,26 @@ export const removeUser = async (login: Login, chatId: number) => {
 
             window.store.set({ usersTitle, usersList: usersListToStore });
         }
+    } catch (error) {
+        window.store.set({ loginError: 'error' });
+    } finally {
+        window.store.set({ isLoading: false });
+    }
+};
+
+export const updateAvatar = async (data: FormData) => {
+    window.store.set({ isLoading: true });
+
+    try {
+        const avatar = await chatApi.avatar(data);
+        const { activeChat } = window.store;
+        window.store.set({
+            activeChat: {
+                ...activeChat,
+                avatar: avatar.avatar,
+            },
+        });
+        getChatsList();
     } catch (error) {
         window.store.set({ loginError: 'error' });
     } finally {

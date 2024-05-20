@@ -49,7 +49,7 @@ class ProfilePage extends Block<Props> {
                     },
                 }),
                 PageProfileBody: new Form({
-                    title: this.props.userData.display_name,
+                    title: this.props.userData.display_name || this.props.userData.login,
                     formBody: new FormProfile({
                         ...this.props,
                         submit: onSubmitBind,
@@ -115,7 +115,7 @@ class ProfilePage extends Block<Props> {
             });
 
             this.children.PageProfileComp.children.PageProfileBody.setProps({
-                title: newProps.userData.first_name,
+                title: newProps.userData.display_name || newProps.userData.login,
             });
 
             return true;

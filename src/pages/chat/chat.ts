@@ -4,6 +4,7 @@ import {
     Popup,
     ChatList,
     Message,
+    FormProfileImage,
 } from "../../components";
 import Block from "../../core/Block";
 import { ChatUsersForm } from "../../components/chat-users-form";
@@ -17,6 +18,7 @@ import {
     removeChat,
     removeUser,
     setActiveChat,
+    updateAvatar,
 } from "../../services/chat";
 import { connect } from "../../utils/connect";
 import {
@@ -53,6 +55,8 @@ class ChatPage extends Block<Props> {
         const onSubmitAddChatToggleBind = this.onSubmitAddChat.bind(this);
         const onSubmitAddUserBind = this.onSubmitAddUser.bind(this);
         const onSubmitRemoveUserBind = this.onSubmitRemoveUser.bind(this);
+        const onSubmitImageBind = this.onSubmitImage.bind(this);
+        const onPopupImageToggleBind = this.onPopupImageToggle.bind(this);
 
         this.children = {
             ...this.children,
@@ -68,6 +72,7 @@ class ChatPage extends Block<Props> {
                 clickAddUser: onPopupAddUserToggleBind,
                 clickRemoveUser: onPopupRemoveUserToggleBind,
                 clickRemoveChat: onPopupRemoveChatToggleBind,
+                clickAddImage: onPopupImageToggleBind,
             }) as unknown as Block<unknown>,
             PopupAddUser: new Popup({
                 type: '',
@@ -108,7 +113,36 @@ class ChatPage extends Block<Props> {
                 }),
                 click: onPopupAddChatToggleBind,
             }) as Block<unknown>,
+            PopupImage: new Popup({
+                type: '',
+                popupBody: new Form({
+                    title: "Загрузите файл",
+                    formBody: new FormProfileImage({}),
+                    events: {
+                        submit: onSubmitImageBind,
+                    },
+                }),
+                click: onPopupImageToggleBind,
+            }) as Block<unknown>,
         };
+    }
+
+    onSubmitImage(e: Event) {
+        e.preventDefault();
+
+        const form = this.children.PopupImage.children.popupBody.getContent() as HTMLFormElement;
+        const file = form.querySelector('input')!;
+
+        const formData = new FormData();
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        formData.append('avatar', file?.files?.[0]!);
+        formData.append('chatId', String(this.messageId));
+
+        updateAvatar(formData);
+    }
+
+    onPopupImageToggle(e: Event) {
+        togglePopup(this.children.PopupImage, e);
     }
 
     componentDidUpdate(oldProps: Props, newProps: Props) {
@@ -127,9 +161,15 @@ class ChatPage extends Block<Props> {
     }
 
     chatsListToMapComponents(list: Array<ChatDTO>, activeId: number | null) {
-        return list.map(({ id, title, last_message }) => new Message({
+        return list.map(({
+            id,
+            title,
+            last_message,
+            avatar,
+        }) => new Message({
             name: title,
             message: last_message?.content,
+            avatar,
             events: {
                 click: () => { this.onMessageClick?.(id); },
             },
@@ -238,6 +278,7 @@ class ChatPage extends Block<Props> {
                     {{{ PopupAddChat }}}
                     {{{ PopupAddUser }}}
                     {{{ PopupRemoveUser }}}
+                    {{{ PopupImage }}}
                 </div>
             {{/Page}}
         `;

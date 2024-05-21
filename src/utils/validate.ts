@@ -9,9 +9,9 @@ export const validate = (value: string, inputName: string) => {
         case 'email':
             return /^[A-Za-z0-9_-]+@[A-Za-z0-9_-]+\.[A-Za-z]{2,}$/.test(value);
         case 'first_name':
-            return /^[А-яЁёA-Z][а-яёёA-Z_-]*$/.test(value);
+            return /^[А-яЁёA-z][а-яёёa-z_-]*$/.test(value);
         case 'second_name':
-            return /^[А-яЁёA-Z][а-яёёA-Z_-]*$/.test(value);
+            return /^[А-яЁёA-z][а-яёёa-z_-]*$/.test(value);
         case 'phone':
             return /^\+?\d{10,15}$/.test(value);
         default:

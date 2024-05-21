@@ -102,7 +102,6 @@ class Dialog extends Block<Props> {
                                 data: this.chatMessagesToMapComponents(this.messagesList),
                             });
                         } else if ('type' in message && message.type === 'message') {
-                            this.messagesList.push(message);
                             this.messagesList = [message, ...this.messagesList];
                             this.children.ChatMessagesList.setProps({
                                 data: this.chatMessagesToMapComponents(this.messagesList),

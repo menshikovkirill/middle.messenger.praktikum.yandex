@@ -7,7 +7,8 @@ type MetaType = {
     tagName?: string;
 }
 
-export default class Block<T = unknown> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default class Block<T extends Record<string, any> = any> {
     static EVENTS = {
         INIT: 'init',
         FLOW_CDM: 'flow:component-did-mount',

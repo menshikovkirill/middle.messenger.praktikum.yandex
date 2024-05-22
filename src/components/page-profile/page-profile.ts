@@ -8,7 +8,7 @@ export default class PageProfile extends Block {
             GoToMessenger: new Link({
                 text: '',
                 go: '/messenger',
-            }) as Block<unknown>,
+            }),
         };
     }
 

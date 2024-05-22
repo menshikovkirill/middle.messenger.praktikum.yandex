@@ -6,12 +6,12 @@ import {
     Popup,
     FormProfileImage,
 } from "../../components";
-import { Props as PopupProps } from '../../components/popup/popup';
 import Block from "../../core/Block";
 import { getUserData } from "../../services/auth";
 import { updateAvatars, updateUserData, updateUserPassword } from "../../services/user";
 import { StoreType, UserProfile } from "../../types";
 import { connect } from "../../utils/connect";
+import { togglePopup } from "../../utils/popup";
 import { getInputesValue } from "../../utils/submit";
 
 export type Props = {
@@ -70,16 +70,15 @@ class ProfilePage extends Block<Props> {
                     },
                 }),
                 click: onPopupToggleBind,
-            }) as Block<unknown>,
+            }),
         };
     }
 
     onSubmitImage(e: Event) {
-        e.preventDefault();
-
         const form = this.children.Popup.children.popupBody.getContent() as HTMLFormElement;
         const model = new FormData(form);
         updateAvatars(model);
+        togglePopup(this.children.Popup, e);
     }
 
     onSubmit() {
@@ -125,10 +124,7 @@ class ProfilePage extends Block<Props> {
     }
 
     onPopupToggle(e: Event) {
-        e.preventDefault();
-        this.children.Popup.setProps({
-            type: (this.children.Popup.props as PopupProps).type === 'active' ? '' : 'active',
-        });
+        togglePopup(this.children.Popup, e);
     }
 
     render() {
@@ -143,4 +139,4 @@ class ProfilePage extends Block<Props> {
 
 const mapStateToPropsShort = ({ isLoading, userData }: StoreType) => ({ isLoading, userData });
 
-export default connect(mapStateToPropsShort)(ProfilePage);
+export default connect(mapStateToPropsShort)(ProfilePage as typeof Block);

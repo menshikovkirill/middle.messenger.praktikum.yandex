@@ -65,7 +65,7 @@ class ChatPage extends Block<Props> {
                 activeId: this.messageId,
                 clickAddChat: onPopupAddChatToggleBind,
                 clickRemoveChat: onPopupRemoveChatToggleBind,
-            }) as unknown as Block<unknown>,
+            }),
             Dialog: new Dialog({
                 messageId: this.messageId,
                 chat: null,
@@ -73,7 +73,7 @@ class ChatPage extends Block<Props> {
                 clickRemoveUser: onPopupRemoveUserToggleBind,
                 clickRemoveChat: onPopupRemoveChatToggleBind,
                 clickAddImage: onPopupImageToggleBind,
-            }) as unknown as Block<unknown>,
+            }),
             PopupAddUser: new Popup({
                 type: '',
                 popupBody: new Form({
@@ -86,7 +86,7 @@ class ChatPage extends Block<Props> {
                     },
                 }),
                 click: onPopupAddUserToggleBind,
-            }) as Block<unknown>,
+            }),
             PopupRemoveUser: new Popup({
                 type: '',
                 popupBody: new Form({
@@ -99,7 +99,7 @@ class ChatPage extends Block<Props> {
                     },
                 }),
                 click: onPopupRemoveUserToggleBind,
-            }) as Block<unknown>,
+            }),
             PopupAddChat: new Popup({
                 type: '',
                 popupBody: new Form({
@@ -112,7 +112,7 @@ class ChatPage extends Block<Props> {
                     },
                 }),
                 click: onPopupAddChatToggleBind,
-            }) as Block<unknown>,
+            }),
             PopupImage: new Popup({
                 type: '',
                 popupBody: new Form({
@@ -123,7 +123,7 @@ class ChatPage extends Block<Props> {
                     },
                 }),
                 click: onPopupImageToggleBind,
-            }) as Block<unknown>,
+            }),
         };
     }
 
@@ -139,6 +139,7 @@ class ChatPage extends Block<Props> {
         formData.append('chatId', String(this.messageId));
 
         updateAvatar(formData);
+        togglePopup(this.children.PopupImage, e);
     }
 
     onPopupImageToggle(e: Event) {
@@ -231,6 +232,7 @@ class ChatPage extends Block<Props> {
 
         if (values && this.messageId) {
             addNewUser(values, this.messageId);
+            togglePopup(this.children.PopupAddUser, e);
             return true;
         }
 
@@ -247,6 +249,7 @@ class ChatPage extends Block<Props> {
 
         if (values) {
             createChat({ title: values.name });
+            togglePopup(this.children.PopupAddChat, e);
             return true;
         }
 
@@ -263,6 +266,7 @@ class ChatPage extends Block<Props> {
 
         if (values && this.messageId) {
             removeUser(values, this.messageId);
+            togglePopup(this.children.PopupRemoveUser, e);
             return true;
         }
 
@@ -297,4 +301,4 @@ const mapStateToPropsShort = ({
     socket,
 });
 
-export default connect(mapStateToPropsShort)(ChatPage);
+export default connect(mapStateToPropsShort)(ChatPage as typeof Block);

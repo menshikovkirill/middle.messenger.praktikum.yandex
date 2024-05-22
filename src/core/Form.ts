@@ -1,7 +1,8 @@
 import { validateForm } from '../utils/validate';
 import Block from './Block';
 
-export default class FormBlock<T = unknown> extends Block<T> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default class FormBlock<T extends Record<string, any> = any> extends Block<T> {
     onEmail() {
         return validateForm(this.children.Email, 'email', 'Email не подходит под условие валидации');
     }

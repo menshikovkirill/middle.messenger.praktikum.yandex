@@ -39,7 +39,7 @@ class Dialog extends Block<Props> {
             ...this.children,
             UsersList: new UsersList({
                 title: '',
-            }) as Block<unknown>,
+            }),
             ProfileImage: new ProfileImage({
                 profileImage: this.props.userData.avatar,
                 chat: true,
@@ -47,10 +47,10 @@ class Dialog extends Block<Props> {
                 events: {
                     click: this.props.clickAddImage,
                 },
-            }) as Block<unknown>,
+            }),
             ChatMessagesList: new ChatMessagesList({
                 data: [],
-            }) as unknown as Block<unknown>,
+            }),
             FormChat: new FormChat({
                 events: {
                     submit: onSubmitBind,
@@ -145,6 +145,9 @@ class Dialog extends Block<Props> {
                 content: values.message,
                 type: 'message',
             }));
+            this.children.FormChat.children.Text.setProps({
+                value: '',
+            });
         }
 
         return false;
@@ -196,4 +199,4 @@ const mapStateToPropsShort = ({
     usersList,
 });
 
-export default connect(mapStateToPropsShort)(Dialog);
+export default connect(mapStateToPropsShort)(Dialog as typeof Block);

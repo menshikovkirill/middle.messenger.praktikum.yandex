@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import Block from "../core/Block";
 import { StoreEvents } from "../core/Store";
 import isEqual from './isEqual';
 
 type DispatchHundlerType = Record<string, () => void>;
 
-export function connect(mapStateToProps: any, dispatch?: Array<(args: any) => void>) {
-    return function (Component: any) {
+export function connect <T extends Record<string, any>>(mapStateToProps: any, dispatch?: Array<(args: any) => void>) {
+    return function (Component: typeof Block<T>) {
       return class extends Component {
         private onChangeStoreCallback: () => void;
 
@@ -21,7 +22,7 @@ export function connect(mapStateToProps: any, dispatch?: Array<(args: any) => vo
                 dispatchHundler[key] = (...args) => hundler(window.store.set.bind(window.store), ...args);
             });
 
-            this.setProps({ ...dispatchHundler });
+            this.setProps({ ...dispatchHundler as T });
 
             this.onChangeStoreCallback = () => {
                 // при обновлении получаем новое состояние
@@ -40,10 +41,10 @@ export function connect(mapStateToProps: any, dispatch?: Array<(args: any) => vo
             store.on(StoreEvents.Updated, this.onChangeStoreCallback);
         }
 
-      componentWillUnmount() {
-        super.componentWillUnmount();
-        window.store.off(StoreEvents.Updated, this.onChangeStoreCallback);
-      }
+    //   componentWillUnmount() {
+    //     super.componentWillUnmount();
+    //     window.store.off(StoreEvents.Updated, this.onChangeStoreCallback);
+    //   }
     };
   };
 }

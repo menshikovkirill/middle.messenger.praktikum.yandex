@@ -25,7 +25,7 @@ type Props = {
 };
 
 class ChatList extends Block<Props> {
-    choosedElem: Block<unknown> | undefined;
+    choosedElem: Block | undefined;
 
     componentDidMount(): void {
         getChatsList();
@@ -43,7 +43,7 @@ class ChatList extends Block<Props> {
             GoToSettings: new Link({
                 text: "Профиль >",
                 go: '/settings',
-            }) as unknown as Block<unknown>,
+            }),
         };
     }
 
@@ -56,7 +56,7 @@ class ChatList extends Block<Props> {
 
         const choosedElem = Object.values(this.children).filter((elem) => (elem.props as ChatsListProps).id === id);
         if (choosedElem) {
-            this.choosedElem = choosedElem[0] as Block<unknown>;
+            this.choosedElem = choosedElem[0] as Block;
             this.choosedElem.setProps({
                 active: true,
             });
@@ -83,4 +83,4 @@ class ChatList extends Block<Props> {
 }
 const mapStateToPropsShort = ({ chatsList, loginError } : StoreType) => ({ chatsList, loginError });
 
-export default connect(mapStateToPropsShort)(ChatList);
+export default connect(mapStateToPropsShort)(ChatList as typeof Block);

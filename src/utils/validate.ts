@@ -19,7 +19,7 @@ export const validate = (value: string, inputName: string) => {
     }
 };
 
-export const validateForm = (element: Block<unknown>, ruleName: string, errorMessage: string) => {
+export const validateForm = (element: Block, ruleName: string, errorMessage: string) => {
     const inputValue = element?.getContent()?.querySelector('input')?.value;
     const check = inputValue && validate(inputValue, ruleName);
     const { props } = element as { props: object };

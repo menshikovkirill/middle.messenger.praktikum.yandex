@@ -2,66 +2,29 @@ import Handlebars from 'handlebars';
 import * as Components from './components';
 import * as Pages from './pages';
 
-import chatsList from './chatsList.json';
-import dialogData from './dialogData.json';
-
 import profileImage from './assets/empty-img.svg';
-
-type PagesType = keyof typeof Pages;
-
-const pages = {
-    LoginPage: [Pages.LoginPage],
-    RegistrationPage: [Pages.RegistrationPage],
-    NavigatePage: [Pages.NavigatePage],
-    ChatPage: [Pages.ChatPage, {
-        chatsList,
-        activeId: null,
-        dialogData,
-    }],
-    NotFound: [Pages.NotFound],
-    ServerError: [Pages.ServerError],
-    Profile: [Pages.Profile, {
-        name: 'Kirill',
-        email: 'menshikov-kir@yandex.ru',
-        login: 'menshikov-kir',
-        firstName: 'Кирилл',
-        secondName: 'Меньшиков',
-        displayName: 'Kirill',
-        phone: '+79099673030',
-        profileImage,
-    }],
-    ProfilePassword: [Pages.ProfilePassword, { profileImage, name: 'Кирилл' }],
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-} as Record<PagesType, Array<any>>;
+import Router from './core/Router';
+import { Store } from './core/Store';
+import { StoreType } from './types';
 
 Object.entries(Components).forEach(([name, component]) => {
   Handlebars.registerPartial(name, component as Handlebars.Template);
 });
 
-function navigate(page: PagesType) {
-  const [Source, context] = pages[page];
-  const container = document.getElementById('app')!;
+window.store = new Store({
+    isLoading: false,
+    loginError: null,
+    userData: {
+        avatar: profileImage,
+    },
+} as StoreType);
 
-  if (Source instanceof Object) {
-    const pageSource = new Source(context);
-    container.innerHTML = '';
-    container.append(pageSource.getContent());
-    return;
-  }
+const router = new Router('#app');
+window.router = router;
 
-  container.innerHTML = Handlebars.compile(Source)(context);
-}
-
-document.addEventListener('DOMContentLoaded', () => navigate('NavigatePage'));
-
-document.addEventListener('click', (e) => {
-  const target = e?.target as HTMLInputElement;
-  const page = target?.getAttribute('page') as PagesType;
-
-  if (page) {
-    navigate(page);
-
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-});
+router.use('/', Pages.LoginPage)
+.use('/sign-up', Pages.RegistrationPage)
+.use('/settings', Pages.Profile)
+.use('/messenger', Pages.ChatPage)
+.use('*', Pages.NotFound)
+.start();

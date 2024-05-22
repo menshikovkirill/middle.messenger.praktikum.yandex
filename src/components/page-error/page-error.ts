@@ -8,7 +8,7 @@ export default class PageError extends Block {
                     <div class="page-error">
                         <div class="code">{{code}}</div>
                         <div class="description">{{description}}</div>
-                        <a href="#" class="back-link">Назад к чатам</a>
+                        <a href="/chat" class="back-link">Назад к чатам</a>
                     </div>
                 {{/Page}}
             `

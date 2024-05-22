@@ -9,8 +9,17 @@
     width: 140px;
     background-color: $img-background;
 
+    &.chat {
+        width: 47px;
+        height: 47px;
+
+        margin-right: 20px;
+    }
+
     img {
         width: 140px;
+        height: 140px;
+        border-radius: 140px;
     }
 
     .text {

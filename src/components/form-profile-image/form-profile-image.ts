@@ -7,7 +7,7 @@ export default class FormProfileImage extends FormBlock {
         this.children = {
             ...this.children,
             File: new Input({
-                name: "file-image",
+                name: "avatar",
                 type: "file",
                 label: "",
                 placeholder: "Выбрать файл на компьютере",
@@ -21,7 +21,7 @@ export default class FormProfileImage extends FormBlock {
     }
 
     onCheck() {
-        return false;
+        return true;
     }
 
     render() {

@@ -1,10 +1,15 @@
 import { Form, FormLogin } from "../../components";
 import Block from "../../core/Block";
+import { checkAuthForLogin, login } from "../../services/auth";
+import { LoginRequestData, StoreType } from "../../types";
+import { connect } from "../../utils/connect";
 import { getInputesValue } from "../../utils/submit";
 
-export default class LoginPage extends Block {
+class LoginPage extends Block {
     init() {
         const onSubmitBind = this.onSubmit.bind(this);
+
+        checkAuthForLogin();
 
         this.children = {
             ...this.children,
@@ -21,10 +26,10 @@ export default class LoginPage extends Block {
 
     onSubmit(e: Event) {
         e.preventDefault();
-        const values = getInputesValue(this.children.FormLogin.children.formBody as FormLogin, e);
+        const values = getInputesValue(this.children.FormLogin.children.formBody as FormLogin, e) as LoginRequestData;
 
         if (values) {
-            console.log(values);
+            login(values);
             return true;
         }
 
@@ -39,3 +44,7 @@ export default class LoginPage extends Block {
         `;
     }
 }
+
+const mapStateToPropsShort = ({ isLoading, loginError } : StoreType) => ({ isLoading, loginError });
+
+export default connect(mapStateToPropsShort)(LoginPage);

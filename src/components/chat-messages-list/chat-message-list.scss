@@ -1,0 +1,10 @@
+@import "./../../default";
+
+.chat-messages {
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 10px;
+    max-height: calc(100vh - 178px);
+    overflow: scroll;
+    scroll-margin-top: 100vh;
+}

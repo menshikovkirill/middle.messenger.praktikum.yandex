@@ -7,12 +7,14 @@ type MetaType = {
     tagName?: string;
 }
 
-export default class Block<T = unknown> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default class Block<T extends Record<string, any> = any> {
     static EVENTS = {
         INIT: 'init',
         FLOW_CDM: 'flow:component-did-mount',
         FLOW_CDU: 'flow:component-did-update',
         FLOW_RENDER: 'flow:render',
+        Updated: 'Updated',
     };
 
     _element: HTMLElement | null | undefined;
@@ -154,18 +156,33 @@ export default class Block<T = unknown> {
             propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
         });
 
+        const childrenProps = new Array<Block>();
+        Object.entries(propsAndStubs).forEach(([key, value]) => {
+            if (Array.isArray(value)) {
+                propsAndStubs[key] = value.map((item) => {
+                if (item instanceof Block) {
+                    childrenProps.push(item);
+                    return `<div data-id="${item._id}"></div>`;
+                }
+
+                return item;
+                }).join('');
+            }
+        });
+
         const fragment = this._createDocumentElement('template');
 
         fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
         const newElement = (fragment as HTMLTemplateElement).content.firstElementChild as Element;
 
-        Object.values(this.children).forEach((child: Block) => {
+        [...Object.values(this.children), ...childrenProps].forEach((child: Block) => {
             const stub = (fragment as HTMLTemplateElement).content.querySelector(`[data-id="${child._id}"]`);
 
             stub?.replaceWith(child.getContent() as Node);
         });
 
         if (this._element) {
+            newElement.style.display = this._element.style.display;
             this._element.replaceWith(newElement);
         }
 
@@ -176,8 +193,19 @@ export default class Block<T = unknown> {
 
     render() {}
 
-    getContent() {
-        return this.element;
+    getContent(): HTMLElement {
+        // Хак, чтобы вызвать CDM только после добавления в DOM
+        if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+            setTimeout(() => {
+            if (
+                this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
+            ) {
+                this.dispatchComponentDidMount();
+            }
+            }, 100);
+        }
+
+        return this.element as HTMLElement;
     }
 
     _makePropsProxy(props: unknown) {
@@ -208,10 +236,10 @@ export default class Block<T = unknown> {
         return document.createElement(tagName);
     }
 
-    show() {
+    show(style?: string) {
         const elem = this.getContent();
         if (elem) {
-            elem.style.display = 'block';
+            elem.style.display = style ?? 'block';
         }
     }
 

@@ -1,25 +1,15 @@
 @import "./../../default";
 
-.chat-messages {
-    display: flex;
-    flex-direction: column;
+.chat-message {
+    width: fit-content;
+    background-color: $background-message;
     padding: 10px;
-    max-height: calc(100vh - 178px);
-    overflow: scroll;
-    scroll-behavior: smooth;
-     scroll-margin-top: 100vh;
+    border-radius: 10px;
+    min-width: 50px;
+    margin-bottom: 10px;
 
-    .chat-message {
-        width: fit-content;
-        background-color: $background-message;
-        padding: 10px;
-        border-radius: 10px;
-        min-width: 50px;
-        margin-bottom: 10px;
-
-        &.my {
-            background-color: $background-message-my;
-            align-self: flex-end;
-        }
+    &.my {
+        background-color: $background-message-my;
+        align-self: flex-end;
     }
 }

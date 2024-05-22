@@ -6,7 +6,7 @@ export default class FormChat extends FormBlock {
     init() {
         this.children = {
             ...this.children,
-            Login: new Input({
+            Text: new Input({
                 value: "",
                 type: "text",
                 name: "message",
@@ -20,14 +20,14 @@ export default class FormChat extends FormBlock {
     }
 
     onCheck() {
-        return Boolean(this.children.Login.getContent()?.querySelector('input')?.value);
+        return Boolean(this.children.Text.getContent()?.querySelector('input')?.value);
     }
 
     render() {
         return `
             <div class="form-chat">
                 <form class="messages-form-content">
-                    <div class="input-content">{{{ Login }}}</div>
+                    <div class="input-content">{{{ Text }}}</div>
                     {{{ SubmitButton }}}
                 </form>
             </div>

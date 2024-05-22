@@ -1,11 +1,22 @@
 import Block from "../../core/Block";
+import { Link } from "../link";
 
 export default class PageProfile extends Block {
+    init() {
+        this.children = {
+            ...this.children,
+            GoToMessenger: new Link({
+                text: '',
+                go: '/messenger',
+            }),
+        };
+    }
+
     render() {
         return `
             <div class="profile">
                 <div class="profile-back-button-content">
-                    <button></button>
+                    {{{ GoToMessenger }}}
                 </div>
                 <div class="profile-content">
                     {{{ ProfileImage }}}

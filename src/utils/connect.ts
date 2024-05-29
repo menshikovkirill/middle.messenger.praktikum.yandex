@@ -6,6 +6,7 @@ import isEqual from './isEqual';
 type DispatchHundlerType = Record<string, () => void>;
 
 export function connect <T extends Record<string, any>>(mapStateToProps: any, dispatch?: Array<(args: any) => void>) {
+    // eslint-disable-next-line func-names
     return function (Component: typeof Block<T>) {
       return class extends Component {
         private onChangeStoreCallback: () => void;

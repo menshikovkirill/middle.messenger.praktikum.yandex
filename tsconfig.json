@@ -20,7 +20,7 @@
     },
     "ts-node": {
         "experimentalSpecifierResolution": "node",
-        "transpileOnly": true,
+        "transpileOnly": true
     },
     "include": ["src"]
 }

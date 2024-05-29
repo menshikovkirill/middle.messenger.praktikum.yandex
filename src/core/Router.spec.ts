@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import Route from './Route.ts';
 import Block from './Block.ts';
 import sinon from 'sinon';
 import Router from './Router.ts';
